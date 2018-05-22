@@ -1,0 +1,224 @@
+package com.xforceplus.data.bean;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+/**
+ * 器材管理
+ * Created by Administrator on 2018/5/5 0005.
+ */
+@Entity
+@Table(name="equipment_management")
+public class EquipmentManagement implements Serializable {
+    private static final long serialVersionUID = -969872788355668530L;
+    /**
+     * id
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+    /**
+     * 库房号
+     */
+    @Column(name = "store_room",length = 10)
+    private Integer storeRoom;
+    /**
+     * 车牌号
+     */
+    @Column(name = "license_plate_number",length = 10)
+    private String licensePlateNumber;
+    /**
+     * 车辆类型
+     */
+    @Column(name = "vehicle_type",length = 20)
+    private String vehicleType;
+    /**
+     * 配件id
+     */
+    @Column(name = "accessories_id",length = 20)
+    private String accessoriesId;
+    /**
+     * 配件id
+     */
+    @Column(name = "accessories_Name",length = 50)
+    private String accessoriesName;
+    /**
+     * 规格
+     */
+    @Column(name = "specifications",length = 50)
+    private String specifications;
+    /**
+     * 原厂编号
+     */
+    @Column(name = "original_factory_number",length = 50)
+    private String originalFactoryNumber;
+    /**
+     * 单位
+     */
+    @Column(name = "unit",length = 5)
+    private String unit;
+    /**
+     * 入库单价
+     */
+    @Column(name = "warehouse_unit_price",columnDefinition = "double")
+    private double warehouseUnitPrice;
+    /**
+     * 库房总库存
+     */
+    @Column(name = "stock",columnDefinition = "int")
+    private int stock;
+    /**
+     * 货位号
+     */
+    @Column(name = "good_num",columnDefinition = "varchar(20)")
+    private String goodsNum;
+    /**
+     * 到货日期
+     */
+    @Column(name = "delivery_date",columnDefinition = "varchar(10)")
+    private String deliveryDate;
+    /**
+     *备用字段1
+     */
+    @Column(name = "ext1",length = 255)
+    private String ext1;
+    /**
+     * 备用字段2
+     */
+    @Column(name = "ext2",length = 255)
+    private String ext2;
+    /**
+     * 备用字段3
+     */
+    @Column(name = "ext3",length = 255)
+    private String ext3;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getStoreRoom() {
+        return storeRoom;
+    }
+
+    public void setStoreRoom(Integer storeRoom) {
+        this.storeRoom = storeRoom;
+    }
+
+    public String getLicensePlateNumber() {
+        return licensePlateNumber;
+    }
+
+    public void setLicensePlateNumber(String licensePlateNumber) {
+        this.licensePlateNumber = licensePlateNumber;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public String getAccessoriesId() {
+        return accessoriesId;
+    }
+
+    public void setAccessoriesId(String accessoriesId) {
+        this.accessoriesId = accessoriesId;
+    }
+
+    public String getAccessoriesName() {
+        return accessoriesName;
+    }
+
+    public void setAccessoriesName(String accessoriesName) {
+        this.accessoriesName = accessoriesName;
+    }
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
+    }
+
+    public String getOriginalFactoryNumber() {
+        return originalFactoryNumber;
+    }
+
+    public void setOriginalFactoryNumber(String originalFactoryNumber) {
+        this.originalFactoryNumber = originalFactoryNumber;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public double getWarehouseUnitPrice() {
+        return warehouseUnitPrice;
+    }
+
+    public void setWarehouseUnitPrice(double warehouseUnitPrice) {
+        this.warehouseUnitPrice = warehouseUnitPrice;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public String getGoodsNum() {
+        return goodsNum;
+    }
+
+    public void setGoodsNum(String goodsNum) {
+        this.goodsNum = goodsNum;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public String getExt1() {
+        return ext1;
+    }
+
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+
+    public String getExt2() {
+        return ext2;
+    }
+
+    public void setExt2(String ext2) {
+        this.ext2 = ext2;
+    }
+
+    public String getExt3() {
+        return ext3;
+    }
+
+    public void setExt3(String ext3) {
+        this.ext3 = ext3;
+    }
+}
