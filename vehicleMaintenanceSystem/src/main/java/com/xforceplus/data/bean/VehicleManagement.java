@@ -53,21 +53,6 @@ public class VehicleManagement implements Serializable {
      */
     @Column(name = "remarke",length = 200)
     private String remarke;
-    /**
-     *备用字段1
-     */
-    @Column(name = "ext1",length = 255)
-    private String ext1;
-    /**
-     * 备用字段2
-     */
-    @Column(name = "ext2",length = 255)
-    private String ext2;
-    /**
-     * 备用字段3
-     */
-    @Column(name = "ext3",length = 255)
-    private String ext3;
 
     public Long getId() {
         return id;
@@ -133,30 +118,6 @@ public class VehicleManagement implements Serializable {
         this.remarke = remarke;
     }
 
-    public String getExt1() {
-        return ext1;
-    }
-
-    public void setExt1(String ext1) {
-        this.ext1 = ext1;
-    }
-
-    public String getExt2() {
-        return ext2;
-    }
-
-    public void setExt2(String ext2) {
-        this.ext2 = ext2;
-    }
-
-    public String getExt3() {
-        return ext3;
-    }
-
-    public void setExt3(String ext3) {
-        this.ext3 = ext3;
-    }
-
     public VehicleManagement() {
     }
 
@@ -168,18 +129,5 @@ public class VehicleManagement implements Serializable {
         this.driverName = driverName;
         this.unitId = unitId;
         this.remarke = remarke;
-    }
-
-    public VehicleManagement(String equipmentName, String equipmentModel, String licensePlateNumber, String vehicleType, String driverName, Integer unitId, String remarke, String ext1, String ext2, String ext3) {
-        this.equipmentName = equipmentName;
-        this.equipmentModel = equipmentModel;
-        this.licensePlateNumber = licensePlateNumber;
-        this.vehicleType = vehicleType;
-        this.driverName = driverName;
-        this.unitId = unitId;
-        this.remarke = remarke;
-        this.ext1 = ext1;
-        this.ext2 = ext2;
-        this.ext3 = ext3;
     }
 }

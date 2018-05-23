@@ -1,6 +1,9 @@
 package com.xforceplus.data.dao;
 
 import com.xforceplus.data.bean.VehicleManagement;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface VehicleManagementRepository extends JpaRepository<VehicleManagement,Long> {
+	 Page<VehicleManagement> findAll(Pageable pageable);
 }

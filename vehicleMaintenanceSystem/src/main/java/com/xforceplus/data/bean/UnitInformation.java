@@ -46,21 +46,6 @@ public class UnitInformation  implements Serializable {
      */
     @Column(name = "technical_status",length = 100)
     private String technicalStatus;
-    /**
-     *备用字段1
-     */
-    @Column(name = "ext1",length = 255)
-    private String ext1;
-    /**
-     * 备用字段2
-     */
-    @Column(name = "ext2",length = 255)
-    private String ext2;
-    /**
-     * 备用字段3
-     */
-    @Column(name = "ext3",length = 255)
-    private String ext3;
 
     public Long getId() {
         return id;
@@ -112,30 +97,6 @@ public class UnitInformation  implements Serializable {
         this.technicalStatus = technicalStatus;
     }
 
-    public String getExt1() {
-        return ext1;
-    }
-
-    public void setExt1(String ext1) {
-        this.ext1 = ext1;
-    }
-
-    public String getExt2() {
-        return ext2;
-    }
-
-    public void setExt2(String ext2) {
-        this.ext2 = ext2;
-    }
-
-    public String getExt3() {
-        return ext3;
-    }
-
-    public void setExt3(String ext3) {
-        this.ext3 = ext3;
-    }
-
     public UnitInformation() {
     }
 
@@ -157,22 +118,7 @@ public class UnitInformation  implements Serializable {
                 ", dispensingTime='" + dispensingTime + '\'' +
                 ", stockQuantity=" + stockQuantity +
                 ", technicalStatus='" + technicalStatus + '\'' +
-                ", ext1='" + ext1 + '\'' +
-                ", ext2='" + ext2 + '\'' +
-                ", ext3='" + ext3 + '\'' +
                 '}';
-    }
-
-    public UnitInformation(String unitId, String equipmentModel, String equipmentName, String dispensingTime, int stockQuantity, String technicalStatus, String ext1, String ext2, String ext3) {
-        this.unitId = unitId;
-        this.equipmentModel = equipmentModel;
-        this.equipmentName = equipmentName;
-        this.dispensingTime = dispensingTime;
-        this.stockQuantity = stockQuantity;
-        this.technicalStatus = technicalStatus;
-        this.ext1 = ext1;
-        this.ext2 = ext2;
-        this.ext3 = ext3;
     }
 
     public UnitInformation(String unitId, String equipmentModel, String equipmentName, String dispensingTime, int stockQuantity, String technicalStatus) {
