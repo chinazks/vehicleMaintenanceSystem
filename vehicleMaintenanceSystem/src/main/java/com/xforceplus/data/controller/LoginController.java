@@ -1,21 +1,20 @@
 package com.xforceplus.data.controller;
 
 
-import com.xforceplus.data.bean.User;
-import com.xforceplus.data.dao.VehicleUserRepository;
+import java.util.Map;
 
-import org.mockito.internal.stubbing.answers.ReturnsElementsOf;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.xforceplus.data.bean.User;
+import com.xforceplus.data.dao.VehicleUserRepository;
 
 /**
  * Created by admin on 2017/10/11.
@@ -32,22 +31,27 @@ public class LoginController {
     
     @RequestMapping("/main")
     public String main(){
-        return "main";
+        return "unitInformation/main";
     }
     
     @RequestMapping("/managecar")
     public String managecar() {
-    	return "managecar";
+    	return "vehicleManagement/managecar";
     }
     
     @RequestMapping("/addunitinformation")
     public String addunitinformation() {
-    	return "addunitinformation";
+    	return "unitInformation/addunitinformation";
+    }
+    
+    @RequestMapping("/updateunitinformation/{id}")
+    public String updateunitinformation(HttpSession session,@PathVariable int id) {
+    	session.setAttribute("updateid", id);
+		return "unitInformation/updateunitinformation";
     }
     
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
-        List<Map<String,String>> listMap = new ArrayList<>();//传到前端
         User user = userLogin.findByUserNameAndPassword(userName,password);
         if(user == null){
             map.put("error","用户名密码错误！");

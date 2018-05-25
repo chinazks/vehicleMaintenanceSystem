@@ -47,7 +47,7 @@ public class VehicleManagement implements Serializable {
      * 单位id
      */
     @Column(name = "unit_id",length = 3)
-    private Integer unitId;
+    private String  unitId;
     /**
      * 备注
      */
@@ -102,11 +102,11 @@ public class VehicleManagement implements Serializable {
         this.driverName = driverName;
     }
 
-    public Integer getUnitId() {
+    public String getUnitId() {
         return unitId;
     }
 
-    public void setUnitId(Integer unitId) {
+    public void setUnitId(String unitId) {
         this.unitId = unitId;
     }
 
@@ -121,7 +121,7 @@ public class VehicleManagement implements Serializable {
     public VehicleManagement() {
     }
 
-    public VehicleManagement(String equipmentName, String equipmentModel, String licensePlateNumber, String vehicleType, String driverName, Integer unitId, String remarke) {
+    public VehicleManagement(String equipmentName, String equipmentModel, String licensePlateNumber, String vehicleType, String driverName, String unitId, String remarke) {
         this.equipmentName = equipmentName;
         this.equipmentModel = equipmentModel;
         this.licensePlateNumber = licensePlateNumber;

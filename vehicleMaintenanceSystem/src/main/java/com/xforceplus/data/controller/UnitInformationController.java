@@ -1,24 +1,22 @@
 package com.xforceplus.data.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -27,7 +25,9 @@ import com.xforceplus.data.dao.UnitInformationRepository;
 import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.tools.JSONResult;
 
+import jxl.Sheet;
 import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -78,18 +78,22 @@ public class UnitInformationController {
         return  object.toString();
     }
     
-  //导出excel
-  	@RequestMapping("putout")
+    //导出excel
+  	@RequestMapping("/putout")
+  	@ResponseBody
   	public JSONResult putout(HttpServletRequest request){
-  		String path = request.getSession().getServletContext().getRealPath("putout"); 
-  		System.out.println(path+"是路径");
+  		String path = Class.class.getClass().getResource("/").getPath()+"/static/download/";
 		ArrayList<UnitInformation> list=new ArrayList<UnitInformation>();
 		list = (ArrayList<UnitInformation>) unitInformationRepository.findAll();
   		try {
-  			File files=new File(path+"/unitinformation.xls");
+  			File files=new File(path);
   			if (!files.exists()) {
   				files.mkdirs();
   			}
+  			File file=new File(path+"/unitinformation.xls");
+			if(file.exists()){
+				file.delete();
+			}
   			WritableWorkbook book=Workbook.createWorkbook(new File(path+"/unitinformation.xls"));
   			//设置表名
   			WritableSheet sheet=book.createSheet("单位信息表",0);
@@ -99,8 +103,7 @@ public class UnitInformationController {
   			sheet.addCell(new Label(2,0,"装备名称"));
   			sheet.addCell(new Label(3,0,"配发时间"));
   			sheet.addCell(new Label(4,0,"数量"));
-  			sheet.addCell(new Label(5,0,"技术状况"));
-  			
+  			sheet.addCell(new Label(5,0,"技术状况"));			
   			//添加数据
   			for(int i=0;i<list.size();i++){
   				sheet.addCell(new Label(0,i+1,list.get(i).getUnitId()));
@@ -115,43 +118,30 @@ public class UnitInformationController {
   		} catch (Exception e) {
   			e.printStackTrace();
   		}
-  		return JSONResult.build(200, "生成excel", "");
+  		System.out.println();
+  		return JSONResult.build(200, "生成excel", "download/unitinformation.xls");
   	}
 
     //提交新增单位
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String equmentManagementInsert(Map<String,Object> map,@ModelAttribute("form") UnitInformation unitInformation){
-        boolean status = false;//用来区别一开始进入的页面有没有数据
-        String msg = "";
-        try{
-            if(unitInformation != null){
-                unitInformationRepository.save(unitInformation);
-                status = true;
-                msg = "单位信息新增成功！";
-            }
-        }catch (Exception e){
-            logger.error(e.getLocalizedMessage());
-            msg = "数据长度有误，请核实修改！";
-        }finally {
-            map.put("unitInformation",unitInformation);//数据还原
-            map.put("status",status);
-            map.put("msg",msg);
-        }
-        return "main";
+    @ResponseBody
+    public JSONResult equmentManagementInsert(Map<String,Object> map,HttpServletRequest request){
+        String unitId = request.getParameter("unitid");
+        String equipmentModel = request.getParameter("equipmentModel");
+        String equipmentName = request.getParameter("equipmentName");
+        String dispensingTime = request.getParameter("dispensingTime");
+        int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+        String technicalStatus = request.getParameter("technicalStatus");
+        UnitInformation unitInformation = new UnitInformation(unitId, equipmentModel, equipmentName, dispensingTime, stockQuantity, technicalStatus);
+        unitInformationRepository.save(unitInformation);
+        return JSONResult.build(200, "新增成功", "");
     }
     
-    @RequestMapping(value = "/update/{id}",method = RequestMethod.GET)
-    public String equmentManagementUpdate(Map<String,Object> map,@PathVariable Long id){
-        UnitInformation unitInformation=unitInformationRepository.findOne(id);
-        map.put("unitInformation",unitInformation);
-        return "/unitInformation/unitInformation_update";
-    }
     
     //删除单位信息
     @RequestMapping(value = "deleteunitinformation")
     @ResponseBody
-    public JSONResult equmentManagementDelete(Map<String,Object> map,HttpServletRequest request){
-    	System.out.println("进入删除行的方法");
+    public JSONResult deleteunitinformation(Map<String,Object> map,HttpServletRequest request){
         long id = Integer.parseInt(request.getParameter("id"));//--
         JSONResult response=null;
         String msg = "";
@@ -166,7 +156,72 @@ public class UnitInformationController {
         }
         return response;
     }
-
-  
+    
+    //跳转到编辑页面，传编辑的信息
+    @RequestMapping(value = "/updateinfo" ,  method = RequestMethod.POST)
+    @ResponseBody
+    public String updateinfo(HttpServletRequest request) {
+    	long id = Integer.parseInt(request.getParameter("id"));
+    	UnitInformation unitInformation = unitInformationRepository.findOne(id);
+    	JSONObject jsonObject = (JSONObject) JSONObject.toJSON(unitInformation);
+		return jsonObject.toString();
+    }
+    
+    //编辑页面的提交
+    @RequestMapping(value = "/update" ,  method = RequestMethod.POST)
+    @ResponseBody
+    public JSONResult updateunitinformation(HttpServletRequest request) {
+    	long id = Integer.parseInt(request.getParameter("id"));
+    	String unitId = request.getParameter("unitid");
+        String equipmentModel = request.getParameter("equipmentModel");
+        String equipmentName = request.getParameter("equipmentName");
+        String dispensingTime = request.getParameter("dispensingTime");
+        int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+        String technicalStatus = request.getParameter("technicalStatus");
+        UnitInformation unitInformation = new UnitInformation(unitId, equipmentModel, equipmentName, dispensingTime, stockQuantity, technicalStatus);
+        unitInformationRepository.delete(id);
+        unitInformationRepository.save(unitInformation);
+		return JSONResult.build(200, "修改成功", "");
+    }
+    
+    //导入excel
+    @RequestMapping(value = "/lead", method = RequestMethod.POST)
+    @ResponseBody
+    public String lead(MultipartFile file) {
+    	String path = Class.class.getClass().getResource("/").getPath()+"static/upload/";
+    	String fielName = file.getOriginalFilename();
+    	File files=new File(path);
+		if (!files.exists()) {
+			files.mkdirs();
+		}
+		File tempfile = new File(path,fielName);
+		if(tempfile.exists()) {
+			tempfile.delete();
+		}
+		try {
+			file.transferTo(tempfile);
+			Workbook workbook = Workbook.getWorkbook(tempfile);
+			Sheet sheet = workbook.getSheet(0);
+			 for (int i = 1; i < sheet.getRows(); i++) {
+				 UnitInformation unitInformation = new UnitInformation();
+				 unitInformation.setUnitId(sheet.getCell(0,i).getContents());
+				 unitInformation.setEquipmentModel((sheet.getCell(1,i).getContents()));
+				 unitInformation.setEquipmentName(sheet.getCell(2,i).getContents());
+				 unitInformation.setDispensingTime(sheet.getCell(3,i).getContents());
+				 unitInformation.setStockQuantity(Integer.parseInt(sheet.getCell(4, i).getContents()));
+				 unitInformation.setTechnicalStatus(sheet.getCell(5,i).getContents());
+				 unitInformationRepository.save(unitInformation);
+			 }
+		} catch (BiffException | IOException e) {
+			e.printStackTrace();
+		}   
+		JSONObject json = new JSONObject();
+		JSONObject data = new JSONObject();
+		data.put("src", "baidu.com");
+		json.put("code", 0);
+		json.put("msg", "上传成功");
+		json.put("data", data);
+		return json.toString();
+    }
     
 }

@@ -13,12 +13,9 @@
 <body>
     <div class="layui-layout layui-layout-admin kit-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo">KIT ADMIN</div>
+            <div class="layui-logo">车辆维修管理系统</div>
             <div class="layui-logo kit-logo-mobile">K</div>
-            <ul class="layui-nav layui-layout-left kit-nav" kit-one-level>
-                <li class="layui-nav-item"><a href="javascript:;">控制台</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">商品管理</a></li>
-            </ul>
+           
             <ul class="layui-nav layui-layout-right kit-nav">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
@@ -26,7 +23,7 @@
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">基本资料</a></dd>
-                        <dd><a href="javascript:;">安全设置</a></dd>
+                        <dd><a href="javascript:;">修改密码</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="login"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
@@ -41,7 +38,7 @@
                     <li class="layui-nav-item">
                         <a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 单位模块</span></a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" kit-target data-options="{url:'test.html',icon:'&#xe6c6;',title:'表格',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 用户信息</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'test.html',icon:'&#xe770;',title:'表格',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 用户信息</span></a></dd>
                             <!--<dd><a href="javascript:;" data-url="form.html" data-icon="fa-user" data-title="表单" kit-target data-id='2'><i class="fa fa-user" aria-hidden="true"></i><span> 表单</span></a></dd>
                             <dd><a href="javascript:;" data-url="nav.html" data-icon="&#xe628;" data-title="导航栏" kit-target data-id='3'><i class="layui-icon">&#xe628;</i><span> 导航栏</span></a></dd>
                             <dd><a href="javascript:;" data-url="list4.html" data-icon="&#xe614;" data-title="列表四" kit-target data-id='4'><i class="layui-icon">&#xe614;</i><span> 列表四</span></a></dd>
@@ -51,9 +48,9 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 车辆模块</span></a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" kit-target data-options="{url:'managecar',icon:'&#xe658;',title:'车辆管理',id:'6'}"><i class="layui-icon">&#xe66c;</i><span> 车辆管理</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'tab.html',icon:'&#xe658;',title:'TAB',id:'7'}"><i class="layui-icon">&#xe631;</i><span> 维修管理</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'app.html',icon:'&#xe658;',title:'App',id:'8'}"><i class="layui-icon">&#xe639;</i><span> 器材管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'managecar',icon:'&#xe66c;',title:'车辆管理',id:'6'}"><i class="layui-icon">&#xe66c;</i><span> 车辆管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'tab.html',icon:'&#xe631;;',title:'维修管理',id:'7'}"><i class="layui-icon">&#xe631;</i><span> 维修管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'app.html',icon:'&#xe639;',title:'器材管理',id:'8'}"><i class="layui-icon">&#xe639;</i><span> 器材管理</span></a></dd>
                         </dl>
                     </li>
                    <!-- <li class="layui-nav-item">
@@ -72,15 +69,11 @@
 
         <div class="layui-footer">
             <!-- 底部固定区域 -->
-            2017 &copy;
-            <a href="http://kit.zhengjinfan.cn/">kit.zhengjinfan.cn/</a> MIT license
+            2018 &copycopyright by
+            <a href="#">czy&zk</a>
 
         </div>
     </div>
-    <script type="text/javascript">
-        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-        document.write(unescape("%3Cspan id='cnzz_stat_icon_1264021086'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1264021086%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
-    </script>
     <script src="./plugins/layui/layui.js"></script>
     <script>
         var message;

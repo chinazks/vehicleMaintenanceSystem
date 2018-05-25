@@ -72,21 +72,6 @@ public class MaintenanceRecord implements Serializable {
      */
     @Column(name = "remark",length = 500)
     private String remark;
-    /**
-     *备用字段1
-     */
-    @Column(name = "ext1",length = 255)
-    private String ext1;
-    /**
-     * 备用字段2
-     */
-    @Column(name = "ext2",length = 255)
-    private String ext2;
-    /**
-     * 备用字段3
-     */
-    @Column(name = "ext3",length = 255)
-    private String ext3;
 
     public Long getId() {
         return id;
