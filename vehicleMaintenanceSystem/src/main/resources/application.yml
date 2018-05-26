@@ -12,7 +12,7 @@ spring:
     jpa:
         hibernate:
           ddl-auto: update
-        show-sql: false
+        show-sql: true
 size: 3
 server:
     port: 9092

@@ -29,7 +29,7 @@ public class MaintenanceRecord implements Serializable {
     /**
      * 司机名称
      */
-    @Column(name = "driver_name",length = 4)
+    @Column(name = "driver_name",length = 20)
     private String driverName;
     /**
      * 库房号
@@ -56,12 +56,12 @@ public class MaintenanceRecord implements Serializable {
      * 配件缺少情况
      */
     @Column(name = "lack_of_accessories",length = 1)
-    private Integer lackOfAccessories;
+    private String lackOfAccessories;
     /**
      * 维修价格
      */
     @Column(name = "maintenance_price")
-    private double maintenancePrice;
+    private String maintenancePrice;
     /**
      * 维修时间
      */
@@ -121,9 +121,7 @@ public class MaintenanceRecord implements Serializable {
         this.useOfAccessories = useOfAccessories;
     }
 
-    public Integer getLackOfAccessories() {
-        return lackOfAccessories;
-    }
+
 
     public Integer getStoreRoom() {
         return storeRoom;
@@ -133,16 +131,12 @@ public class MaintenanceRecord implements Serializable {
         this.storeRoom = storeRoom;
     }
 
-    public double getMaintenancePrice() {
+    public String getMaintenancePrice() {
         return maintenancePrice;
     }
 
-    public void setMaintenancePrice(double maintenancePrice) {
+    public void setMaintenancePrice(String maintenancePrice) {
         this.maintenancePrice = maintenancePrice;
-    }
-
-    public void setLackOfAccessories(Integer lackOfAccessories) {
-        this.lackOfAccessories = lackOfAccessories;
     }
 
     public String getRemark() {
@@ -172,7 +166,15 @@ public class MaintenanceRecord implements Serializable {
         this.vehicleType = vehicleType;
     }
 
-    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, Integer lackOfAccessories, double maintenancePrice, String maintenanceTime, String remark) {
+    public String getLackOfAccessories() {
+        return lackOfAccessories;
+    }
+
+    public void setLackOfAccessories(String lackOfAccessories) {
+        this.lackOfAccessories = lackOfAccessories;
+    }
+
+    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark) {
         this.unitId = unitId;
         this.licensePlateNumber = licensePlateNumber;
         this.driverName = driverName;

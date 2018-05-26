@@ -51,22 +51,23 @@
         });
 
         //方法级渲染
+        //String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String , String , String useOfAccessories,
+        // Integer , double , String maintenanceTime, String remark
         table.render({
             elem: '#unit'
             ,url: '/maintenanceRecord/list'
             ,cols: [[
                 {field:'unitId', width:60, title:'单位id'}
                 ,{field:'unitName', width:120, title:'单位名称'}
-                ,{field:'equipmentName', width:120, title:'车牌号'}
-                ,{field:'dispensingTime', width:120, title:'司机名称'}
-                ,{field:'stockQuantity', width:120, title:'库房号',sort: true}
-                ,{field:'technicalStatus', width:120, title:'车辆类型'}
-                ,{field:'unitId', width:120, title:'配件id'}
-                ,{field:'unitName', width:120, title:'配件使用情况'}
-                ,{field:'equipmentName', width:120, title:'配件缺少情况'}
-                ,{field:'dispensingTime', width:120, title:'维修价格'}
-                ,{field:'stockQuantity', width:120, title:'维修时间',sort: true}
-                ,{field:'technicalStatus', width:120, title:'备注'}
+                ,{field:'licensePlateNumber', width:120, title:'车牌号'}
+                ,{field:'driverName', width:120, title:'司机名称'}
+                ,{field:'storeRoom', width:120, title:'库房号',sort: true}
+                ,{field:'vehicleType', width:120, title:'车辆类型'}
+                ,{field:'accessoriesId', width:120, title:'配件id'}
+                ,{field:'useOfAccessories', width:120, title:'配件使用情况'}
+                ,{field:'lackOfAccessories', width:120, title:'配件缺少情况'}
+                ,{field:'maintenancePrice', width:120, title:'维修价格'}
+                ,{field:'maintenanceTime', width:120, title:'维修时间',sort: true}
                 ,{field:'right', title: '操作', width:200, height:80, toolbar:"#barDemo"}
             ]]
             ,id: 'testReload'
@@ -91,8 +92,9 @@
                 console.log(data);
                 layer.open({
                     title: '详细信息'
-                    ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>装备名称:'+data.equipmentName+'</div><div>配发时间:'+data.dispensingTime+'</div><div>数量：'+data.stockQuantity+'</div><div>技术状况:'+data.technicalStatus+'</div>'
-                + '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>装备名称:'+data.equipmentName+'</div><div>配发时间:'+data.dispensingTime+'</div><div>数量：'+data.stockQuantity+'</div><div>技术状况:'+data.technicalStatus+'</div>'
+                    //String unitId, String , String , Integer , String , String , String , Integer ,
+                    ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>司机名称:'+data.driverName+'</div><div>库房号：'+data.storeRoom+'</div><div>车辆类型:'+data.vehicleType+'</div>'
+                + '<div>配件id:'+data.accessoriesId+'</div><div>配件使用情况:'+data.useOfAccessories+'</div><div>配件缺少情况:'+data.lackOfAccessories+'</div><div>维修价格:'+data.maintenancePrice+'</div><div>维修时间：'+data.maintenanceTime+'</div><div>备注:'+data.remark+'</div>'
             });
             } else if(obj.event === 'del'){
                 layer.confirm('确定删除“'+data.unitName+'”的数据吗', function(index){

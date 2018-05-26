@@ -31,37 +31,89 @@
                         </select>
                     </div>
                 </td>
+                /*{field:'unitId', width:60, title:'单位id'}
+                ,{field:'unitName', width:120, title:'单位名称'}
+                ,{field:'licensePlateNumber', width:120, title:'车牌号'}
+                ,{field:'', width:120, title:'司机名称'}
+                ,{field:'', width:120, title:'库房号',sort: true}
+                ,{field:'', width:120, title:'车辆类型'}
+                ,{field:'', width:120, title:'配件id'}
+                ,{field:'', width:120, title:'配件使用情况'}
+                ,{field:'', width:120, title:'配件缺少情况'}
+                ,{field:'', width:120, title:'维修价格'}
+                ,{field:'', width:120, title:'维修时间',sort: true}
+                ,{field:'right', title: '操作', width:200, height:80, toolbar:"#barDemo"}*/
                 <td>
-                    <label class="layui-form-label">装备型号</label>
+                    <label class="layui-form-label">车牌号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="equipmentModel" autocomplete="off" maxlength="50" class="layui-input" lay-verify="require|lengthLess50">
+                        <input type="text" name="licensePlateNumber" autocomplete="off" maxlength="10" class="layui-input" lay-verify="require|lengthLess50">
                     </div>
                 </td>
                 <td>
-                    <label class="layui-form-label">装备名称</label>
+                    <label class="layui-form-label">司机名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="equipmentName" autocomplete="off" maxlength="50"  class="layui-input" lay-verify="require|lengthLess50">
+                        <input type="text" name="driverName" autocomplete="off" maxlength="20"  class="layui-input" lay-verify="require|lengthLess20">
                     </div>
                 </td>
             </tr>
             <tr><td colspan="3" height="10"></td></tr>
             <tr>
                 <td>
-                    <label class="layui-form-label">配发时间</label>
+                    <label class="layui-form-label">库房号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="dispensingTime" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
+                        <input type="text" name="storeRoom" id="date" maxlength="4" autocomplete="off" class="layui-input" lay-verify="require" >
                     </div>
                 </td>
                 <td>
-                    <label class="layui-form-label">数量</label>
+                    <label class="layui-form-label">车辆类型</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="stockQuantity" autocomplete="off" maxlength="9" class="layui-input" lay-verify="require|stockQuantity">
+                        <input type="number" name="vehicleType" autocomplete="off" maxlength="10" class="layui-input" lay-verify="require|stockQuantity">
                     </div>
                 </td>
                 <td>
-                    <label class="layui-form-label">技术状况</label>
+                    <label class="layui-form-label">配件id</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="technicalStatus" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|technicalStatus">
+                        <input type="text" name="accessoriesId" autocomplete="off" maxlength="10" class="layui-input" lay-verify="require|technicalStatus">
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="layui-form-label">配件使用情况</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="useOfAccessories" id="date" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require" >
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">配件缺少情况</label>
+                    <div class="layui-input-inline">
+                        <select name="lackOfAccessories" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">正常</option>
+                            <option value="1">缺少</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">维修价格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="maintenancePrice" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="layui-form-label">维修时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="maintenanceTime" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="remark" autocomplete="off" maxlength="500" class="layui-input">
                     </div>
                 </td>
             </tr>
@@ -96,8 +148,8 @@
                 /^.{1,}$/
                 ,'字段必填'
             ],
-            lengthLess50:[
-                /^.{1,50}$/
+            lengthLess20:[
+                /^.{1,20}$/
                 ,'长度小于50'
             ],
             stockQuantity:[
@@ -107,6 +159,10 @@
             technicalStatus:[
                 /^.{1,100}$/
                 ,'长度小于100'
+            ],
+            price:[
+                /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/
+                    ,'价格填写有误'
             ]
         });
 
