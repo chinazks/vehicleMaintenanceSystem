@@ -69,7 +69,8 @@ public class MaintenanceRecordController {
  }
 
  @RequestMapping("/insert")
+ @ResponseBody
  public String equmentManagementInsert() {
-  return super.toString();
+    return "";
  }
 }
