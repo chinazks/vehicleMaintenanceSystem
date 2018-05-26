@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
+/** 
  * ≥µ¡æπ‹¿Ì
  * Created by Administrator on 2018/5/5 0005.
  */
