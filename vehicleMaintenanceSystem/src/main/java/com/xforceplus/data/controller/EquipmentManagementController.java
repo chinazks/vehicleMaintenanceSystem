@@ -1,12 +1,8 @@
 package com.xforceplus.data.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.alibaba.fastjson.JSONObject;
+import com.xforceplus.data.bean.EquipmentManagement;
+import com.xforceplus.data.dao.EquipmentManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
-import com.xforceplus.data.bean.EquipmentManagement;
-import com.xforceplus.data.bean.VehicleManagement;
-import com.xforceplus.data.dao.EquipmentManagementRepository;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/equipmentManagement")
@@ -44,7 +41,7 @@ public class EquipmentManagementController {
             map1.put("specifications",equipmentManagement.getContent().get(i).getSpecifications());
             map1.put("originalFactoryNumber",equipmentManagement.getContent().get(i).getOriginalFactoryNumber());
             map1.put("unit",equipmentManagement.getContent().get(i).getUnit());
-            map1.put("warehouseUnitPrice",equipmentManagement.getContent().get(i).getWarehouseUnitPrice());
+            map1.put("warehouseUnitPrice",String.valueOf(equipmentManagement.getContent().get(i).getWarehouseUnitPrice()));
             map1.put("stock",equipmentManagement.getContent().get(i).getStock()+"");
             map1.put("goodsNum",equipmentManagement.getContent().get(i).getGoodsNum());
             map1.put("deliveryDate",equipmentManagement.getContent().get(i).getDeliveryDate());
