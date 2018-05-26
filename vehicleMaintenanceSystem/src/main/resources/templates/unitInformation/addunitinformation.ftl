@@ -34,7 +34,7 @@
 			<td>
 				<label class="layui-form-label">装备型号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="equipmentModel" autocomplete="off" maxlength="50" class="layui-input" lay-verify="lengthLess50">
+                    <input type="text" name="equipmentModel" autocomplete="off" maxlength="50" class="layui-input" lay-verify="require|lengthLess50">
                 </div>
 			</td>
 			<td>
