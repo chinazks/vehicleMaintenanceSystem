@@ -1,7 +1,6 @@
 package com.xforceplus.data.controller;
 
 
-import com.xforceplus.data.bean.Unit;
 import com.xforceplus.data.bean.User;
 import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.dao.VehicleUserRepository;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +40,11 @@ public class LoginController {
     	return "vehicleManagement/managecar";
     }
     
+    @RequestMapping("/addvehiclemanagement")
+    public String addvehiclemanagement() {
+    	return "vehicleManagement/addvehiclemanagement";
+    }
+
     @RequestMapping("/addunitinformation")
     public String addunitinformation() {
     	return "unitInformation/addunitinformation";
@@ -53,20 +55,26 @@ public class LoginController {
     	session.setAttribute("updateid", id);
 		return "unitInformation/updateunitinformation";
     }
-    @RequestMapping("/maintenanceRecord_list")
-    public String maintenanceRecordList(){
-        return "maintenanceRecord/maintenanceRecord_list";
+
+    @RequestMapping("/updatevehiclemanagement/{id}")
+    public String updatevehiclemanagement(Map<String,Object> map,@PathVariable int id) {
+    	map.put("id", id);
+		return "vehiclemanagement/updatevehiclemanagement";
     }
-    @RequestMapping("/maintenanceRecord_insert")
-    public String maintenanceRecordInsert(Map<String,Object> map){
-        List<Unit> unitList = new ArrayList<>();
-        unitList = unitRepository.findAll();
-        map.put("unitList",unitList);
-        return "maintenanceRecord/maintenanceRecord_insert";
+
+    @RequestMapping("/maintananceRecord/list")
+    public String maintananceRecordList(){
+        return "maintananceRecord/maintananceRecord_list";
     }
-    @RequestMapping("/maintenanceRecord_update")
-    public String maintenanceRecordUpdate(){
-        return "maintenanceRecord/maintenanceRecord_update";
+
+    @RequestMapping("/maintananceRecord/insert")
+    public String maintananceRecordInsert(){
+        return "maintananceRecord/maintananceRecord_insert";
+    }
+    @RequestMapping("/maintananceRecord/update/{id}")
+    public String maintananceRecordUpdate(HttpSession session,@PathVariable int id){
+        session.setAttribute("updateid", id);
+        return "maintananceRecord/maintananceRecord_update";
     }
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
