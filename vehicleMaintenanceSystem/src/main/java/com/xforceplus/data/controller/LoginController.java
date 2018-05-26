@@ -1,9 +1,7 @@
 package com.xforceplus.data.controller;
 
 
-import com.xforceplus.data.bean.Unit;
 import com.xforceplus.data.bean.User;
-import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.dao.VehicleUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
