@@ -1,6 +1,7 @@
 package com.xforceplus.data.controller;
 
 
+import com.xforceplus.data.bean.Unit;
 import com.xforceplus.data.bean.User;
 import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.dao.VehicleUserRepository;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,19 +65,22 @@ public class LoginController {
 		return "vehiclemanagement/updatevehiclemanagement";
     }
 
-    @RequestMapping("/maintananceRecord/list")
-    public String maintananceRecordList(){
-        return "maintananceRecord/maintananceRecord_list";
+    @RequestMapping("/maintenanceRecord_list")
+    public String maintenanceRecordList(){
+        return "maintenanceRecord/maintenanceRecord_list";
     }
 
-    @RequestMapping("/maintananceRecord/insert")
-    public String maintananceRecordInsert(){
-        return "maintananceRecord/maintananceRecord_insert";
+    @RequestMapping("/maintenanceRecord_insert")
+    public String maintenanceRecordInsert(Map<String,Object> map){
+        List<Unit> unitList = new ArrayList<>();
+        unitList = unitRepository.findAll();
+        map.put("unitList",unitList);
+        return "maintenanceRecord/maintenanceRecord_insert";
     }
-    @RequestMapping("/maintananceRecord/update/{id}")
-    public String maintananceRecordUpdate(HttpSession session,@PathVariable int id){
+    @RequestMapping("/maintenanceRecord_update")
+    public String maintenanceRecordUpdate(HttpSession session,@PathVariable int id){
         session.setAttribute("updateid", id);
-        return "maintananceRecord/maintananceRecord_update";
+        return "maintenanceRecord/maintenanceRecord_update";
     }
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
