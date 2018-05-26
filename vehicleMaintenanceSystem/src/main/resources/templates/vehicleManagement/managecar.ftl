@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>table模块快速使用</title>
+    <title>unit</title>
     <link rel="stylesheet" href="./plugins/layui/css/layui.css" media="all">
 	<style type="text/css">
 	.layui-table-cell{
@@ -14,38 +14,53 @@
 </head>
 
 <body>
-<div style="width:500px;height:10px;"></div>
-<div class="demoTable">
-     <a class="layui-btn layui-btn-normal  layui-btn-sm" lay-event="detail">新增</a>
-     <a class="layui-btn layui-btn-normal  layui-btn-sm" lay-event="detail">导入</a>
-     <a class="layui-btn layui-btn-normal  layui-btn-sm" lay-event="detail">导出excel</a>
-    <div class="layui-inline">
-        <input class="layui-input" name="keyword" id="demoReload" autocomplete="off">
-    </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
-</div>
-<table class="layui-hide" id="managecar" lay-filter="useruv"></table>
+<div style="width:500px;height:30px;padding-left:20px;"></div>
+<a href="addvehiclemanagement" class="layui-btn">新增</a>
+<button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
+<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
+<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
+
+<table class="layui-hide" id="managecar" lay-filter="vichetable"></table>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary  layui-btn-sm" lay-event="detail">查看</a>
-    <a class="layui-btn  layui-btn-sm" lay-event="edit">编辑</a>
+    <a href="#" class="layui-btn  layui-btn-sm" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger  layui-btn-sm" lay-event="del">删除</a>
 </script>
 
-    <script src="./plugins/layui/layui.js"></script>
-    <script>
-        layui.use('table', function() {
-            var table = layui.table;
-              //方法级渲染
-        table.render({
+<script src="./plugins/layui/layui.js"></script>
+ <script>
+    layui.use(['table','upload'], function() {
+        var table = layui.table
+        ,$ = layui.jquery
+  		,upload = layui.upload;
+       
+         upload.render({
+		    elem: '#leadexcel'
+		    ,method: 'post'
+		    ,url: '/vehiclemanagement/lead'
+		    ,accept: 'file'
+		    ,exts:'xls' //上传文件后缀
+		    ,done: function(res){ 
+			    if(res.code == 0){
+			   	 	 layer.msg("文件上传成功", {icon: 6});
+			    }
+			 }
+		    ,error: function(){
+		     	layer.msg("文件上传失败", {icon: 5});
+		    }
+		  });
+        
+    //方法级渲染
+   		table.render({
             elem: '#managecar'
             ,url: '/vehiclemanagement/list/vehicles'
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'equipmentName', title:'装备名称', width:100}
                 ,{field:'equipmentModel', title:'装备型号', width:100, sort: true}
-                ,{field:'licensePlateNumber', title:'装备型号', width:100}
-                ,{field:'vehicleType', title:'车牌号', width:100}
+                ,{field:'licensePlateNumber', title:'车牌号', width:100}
+                ,{field:'vehicleType', title:'车型号', width:100}
                 ,{field:'driverName', title:'司机名称', width:100, sort: true}
                 ,{field:'unitId', title:'单位id', width:100, sort: true}
                 ,{field:'remarke', title:'备注', width:100, sort: true}
@@ -57,28 +72,25 @@
         });
 
         var $ = layui.$, active = {
-            reload: function(){
-                var demoReload = $('#demoReload');
+        reload: function(){
+            var demoReload = $('#demoReload');
+            table.reload('testReload', {
+                where: {
+                    keyword: demoReload.val()
+                }
+            });
+        }
+    };
 
-                table.reload('testReload', {
-                    where: {
-                        keyword: demoReload.val()
-                    }
-                });
-            }
-        };
-
-        //监听表格复选框选择
-        table.on('checkbox(useruv)', function(obj){
-            console.log(obj)
-        });
-        //监听工具条
-        table.on('tool(useruv)', function(obj){
+     table.on('tool(vichetable)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
+                layer.open({
+  				title: '详细信息'
+ 				 ,content: '<div>装备名称:'+data.equipmentName+'</div><div>装备型号:'+data.equipmentModel+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>车辆类型:'+data.vehicleType+'</div><div>司机名称：'+data.driverName+'</div><div>单位id:'+data.unitId+'</div><div>备注:'+data.remarke+'</div>'
+				}); 
             } else if(obj.event === 'del'){
-                layer.confirm('确定删除车牌号'+data.vehicleType+'的车辆吗', function(index){
+                layer.confirm('确定删除车牌号'+data.licensePlateNumber+'的车辆吗', function(index){
                     $.ajax({
                         url: "/vehiclemanagement/deletevehicle",
                         type: "POST",
@@ -97,45 +109,31 @@
                     });
                 });
             } else if(obj.event === 'edit'){
-                layer.prompt({
-                    formType: 2
-                    ,title: ''
-                    ,value: data.uv
-                }, function(value, index){
-                    EidtUv(data,value,index,obj);
-                });
+               location.href="/updatevehiclemanagement/"+data.id;
             }
         });
 
-        $('.demoTable .layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-        function  EidtUv(data,value,index,obj) {
-            $.ajax({
-                url: "UVServlet",
-                type: "POST",
-                data:{"uvid":data.id,"memthodname":"edituv","aid":data.aid,"uv":value},
-                dataType: "json",
-                success: function(data){
-                    if(data.state==1){
-                        layer.close(index);
-                        //同步更新表格和缓存对应的值
-                        obj.update({
-                            uv: value
-                        });
-                        layer.msg("修改成功", {icon: 6});
-                    }else{
-                        layer.msg("修改失败", {icon: 5});
-                    }
-                }
-
-            });
-        }
-
-
+	$('#excelurl').on('click', function(){
+		layer.msg('正在生成excel', {
+  			icon: 16
+  			,shade: 0.1
+		});
+		$.ajax({
+        	url: '/vehiclemanagement/putout',
+       	 	type: "POST",
+        	dataType: "json",
+        	success: function(data){
+        		if(data.code==200){
+        			$('#downloadexcel').attr("href",data.data);
+        		}
+        		 layer.msg("已生成excel文件", {icon: 6});
+        	}
+   		 });
     });
+
+
+});
+
 </script>
 </body>
 
