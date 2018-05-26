@@ -1,5 +1,7 @@
 package com.xforceplus.data.bean;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -22,36 +24,43 @@ public class VehicleManagement implements Serializable {
      * 装备名称
      */
     @Column(name = "equipment_Name",length = 50)
+    @Length(max = 50)
     private String equipmentName;
     /**
      * 装备型号
      */
     @Column(name = "equipment_model",length = 50)
+    @Length(max = 50)
     private String equipmentModel;
     /**
      * 车牌号
      */
     @Column(name = "license_plate_number",length = 10)
+    @Length(max = 10)
     private String licensePlateNumber;
     /**
      * 车辆类型
      */
     @Column(name = "vehicle_type",length = 10)
+    @Length(max = 10)
     private String vehicleType;
     /**
      * 司机名称
      */
     @Column(name = "driver_name",length = 4)
+    @Length(max = 4)
     private String driverName;
     /**
      * 单位id
      */
     @Column(name = "unit_id",length = 3)
+    @Length(max = 3)
     private String  unitId;
     /**
      * 备注
      */
-    @Column(name = "remarke",length = 200)
+    @Column(name = "remarke",length = 500)
+    @Length(max = 500)
     private String remarke;
 
     public Long getId() {
@@ -130,4 +139,5 @@ public class VehicleManagement implements Serializable {
         this.unitId = unitId;
         this.remarke = remarke;
     }
+
 }

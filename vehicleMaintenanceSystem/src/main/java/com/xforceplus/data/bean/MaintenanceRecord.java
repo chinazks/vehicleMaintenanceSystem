@@ -20,7 +20,7 @@ public class MaintenanceRecord implements Serializable {
      * 单位id
      */
     @Column(name = "unit_id",length = 3)
-    private Integer unitId;
+    private String unitId;
     /**
      * 车牌号
      */
@@ -81,11 +81,11 @@ public class MaintenanceRecord implements Serializable {
         this.id = id;
     }
 
-    public Integer getUnitId() {
+    public String getUnitId() {
         return unitId;
     }
 
-    public void setUnitId(Integer unitId) {
+    public void setUnitId(String unitId) {
         this.unitId = unitId;
     }
 
@@ -172,7 +172,7 @@ public class MaintenanceRecord implements Serializable {
         this.vehicleType = vehicleType;
     }
 
-    public MaintenanceRecord(Integer unitId, String licensePlateNumber, String driverName, Integer storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, Integer lackOfAccessories, double maintenancePrice, String maintenanceTime, String remark) {
+    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, Integer lackOfAccessories, double maintenancePrice, String maintenanceTime, String remark) {
         this.unitId = unitId;
         this.licensePlateNumber = licensePlateNumber;
         this.driverName = driverName;
@@ -185,5 +185,4 @@ public class MaintenanceRecord implements Serializable {
         this.maintenanceTime = maintenanceTime;
         this.remark = remark;
     }
-
 }
