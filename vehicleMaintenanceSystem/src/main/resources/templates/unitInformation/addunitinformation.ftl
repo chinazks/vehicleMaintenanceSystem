@@ -55,7 +55,7 @@
 			<td>
 				<label class="layui-form-label">数量</label>
                 <div class="layui-input-inline">
-                    <input type="number" name="stockQuantity" autocomplete="off" maxlength="9" class="layui-input" lay-verify="require|stockQuantity">
+                    <input type="number" name="stockQuantity" autocomplete="off" maxlength="9" class="layui-input" lay-verify="require">
                 </div>
 			</td>
 			<td>
@@ -99,10 +99,6 @@
                 lengthLess50:[
                     /^.{1,50}$/
                         ,'长度小于50'
-                ],
-                stockQuantity:[
-                    /^[0-9]{8}$/
-                        ,'数量不能大于1亿'
                 ],
                 technicalStatus:[
                     /^.{1,100}$/

@@ -15,4 +15,4 @@ spring:
         show-sql: true
 size: 3
 server:
-    port: 9092
+    port: 9095

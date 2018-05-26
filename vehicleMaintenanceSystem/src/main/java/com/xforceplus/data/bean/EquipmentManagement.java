@@ -21,8 +21,8 @@ public class EquipmentManagement implements Serializable {
     /**
      * 库房号
      */
-    @Column(name = "store_room",length = 10)
-    private Integer storeRoom;
+    @Column(name = "store_room",columnDefinition = "varchar(10)",length = 10)
+    private String storeRoom;
     /**
      * 车牌号
      */
@@ -87,11 +87,11 @@ public class EquipmentManagement implements Serializable {
         this.id = id;
     }
 
-    public Integer getStoreRoom() {
+    public String getStoreRoom() {
         return storeRoom;
     }
 
-    public void setStoreRoom(Integer storeRoom) {
+    public void setStoreRoom(String storeRoom) {
         this.storeRoom = storeRoom;
     }
 

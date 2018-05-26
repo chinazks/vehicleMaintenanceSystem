@@ -15,7 +15,7 @@
 
 <body>
 <div style="width:500px;height:30px;padding-left:20px;"></div>
-<a href="maintananceRecord/insert" class="layui-btn">新增</a>
+<a href="/maintenanceRecord_insert" class="layui-btn">新增</a>
 <button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
 <a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
 <a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
@@ -37,7 +37,7 @@
         upload.render({
             elem: '#leadexcel'
             ,method: 'post'
-            ,url: '/unitInformation/lead'
+            ,url: '/maintenanceRecord/lead'
             ,accept: 'file'
             ,exts:'xls' //上传文件后缀
             ,done: function(res){
@@ -51,8 +51,6 @@
         });
 
         //方法级渲染
-        //String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String , String , String useOfAccessories,
-        // Integer , double , String maintenanceTime, String remark
         table.render({
             elem: '#unit'
             ,url: '/maintenanceRecord/list'
@@ -92,7 +90,6 @@
                 console.log(data);
                 layer.open({
                     title: '详细信息'
-                    //String unitId, String , String , Integer , String , String , String , Integer ,
                     ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>司机名称:'+data.driverName+'</div><div>库房号：'+data.storeRoom+'</div><div>车辆类型:'+data.vehicleType+'</div>'
                 + '<div>配件id:'+data.accessoriesId+'</div><div>配件使用情况:'+data.useOfAccessories+'</div><div>配件缺少情况:'+data.lackOfAccessories+'</div><div>维修价格:'+data.maintenancePrice+'</div><div>维修时间：'+data.maintenanceTime+'</div><div>备注:'+data.remark+'</div>'
             });
@@ -116,23 +113,7 @@
                     });
                 });
             } else if(obj.event === 'edit'){
-
-                //弹出窗编辑，已注释
-                /* layer.open({
-                    type: 1,
-                    title:'编辑',
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['500px', '500'], //宽高
-                    content: '<form class="layui-form" action=""><table class="layui-table">'+
-                    '<tr><td>单位名称</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-                    '<tr><td>装备名称</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-                    '<tr><td>配发时间</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-                    '<tr><td>数量</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-                    '<tr><td>技术状况</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr></table></form>'
-                   });*/
-                //location.href="addunitinformation";
-
-                location.href="/maintananceRecord/update/"+data.id;
+                location.href="/maintenanceRecord/update/"+data.id;
 
             }
         });
@@ -143,7 +124,7 @@
                 ,shade: 0.1
             });
             $.ajax({
-                url: '/unitInformation/putout',
+                url: '/maintenanceRecord/putout',
                 type: "POST",
                 dataType: "json",
                 success: function(data){

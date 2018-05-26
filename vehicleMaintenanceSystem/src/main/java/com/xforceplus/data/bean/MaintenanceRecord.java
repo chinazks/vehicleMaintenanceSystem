@@ -8,8 +8,7 @@ import java.io.Serializable;
  * Created by Administrator on 2018/5/5 0005.
  */
 @Entity
-@Table(name="maintenance_record",uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"unit_id", "license_plate_number "})})
+@Table(name="maintenance_record")
 public class MaintenanceRecord implements Serializable {
     private static final long serialVersionUID = 6748417636267487017L;
     @Id
@@ -29,13 +28,13 @@ public class MaintenanceRecord implements Serializable {
     /**
      * 司机名称
      */
-    @Column(name = "driver_name",length = 20)
+    @Column(name = "driver_name",columnDefinition = "varchar(50)",length = 50)
     private String driverName;
     /**
      * 库房号
      */
     @Column(name = "store_room",length = 4)
-    private Integer storeRoom;
+    private String storeRoom;
     /**
      * 车辆类型
      */
@@ -121,13 +120,11 @@ public class MaintenanceRecord implements Serializable {
         this.useOfAccessories = useOfAccessories;
     }
 
-
-
-    public Integer getStoreRoom() {
+    public String getStoreRoom() {
         return storeRoom;
     }
 
-    public void setStoreRoom(Integer storeRoom) {
+    public void setStoreRoom(String storeRoom) {
         this.storeRoom = storeRoom;
     }
 
@@ -174,7 +171,7 @@ public class MaintenanceRecord implements Serializable {
         this.lackOfAccessories = lackOfAccessories;
     }
 
-    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, Integer storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark) {
+    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, String storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark) {
         this.unitId = unitId;
         this.licensePlateNumber = licensePlateNumber;
         this.driverName = driverName;
