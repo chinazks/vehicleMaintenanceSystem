@@ -37,6 +37,11 @@ public class LoginController {
     	return "vehicleManagement/managecar";
     }
     
+    @RequestMapping("/addvehiclemanagement")
+    public String addvehiclemanagement() {
+    	return "vehicleManagement/addvehiclemanagement";
+    }
+    
     @RequestMapping("/addunitinformation")
     public String addunitinformation() {
     	return "unitInformation/addunitinformation";
@@ -47,10 +52,18 @@ public class LoginController {
     	session.setAttribute("updateid", id);
 		return "unitInformation/updateunitinformation";
     }
+    
+    @RequestMapping("/updatevehiclemanagement/{id}")
+    public String updatevehiclemanagement(Map<String,Object> map,@PathVariable int id) {
+    	map.put("id", id);
+		return "vehiclemanagement/updatevehiclemanagement";
+    }
+    
     @RequestMapping("/maintananceRecord/list")
     public String maintananceRecordList(){
         return "maintananceRecord/maintananceRecord_list";
     }
+    
     @RequestMapping("/maintananceRecord/insert")
     public String maintananceRecordInsert(){
         return "maintananceRecord/maintananceRecord_insert";
