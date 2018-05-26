@@ -38,7 +38,8 @@
                     <li class="layui-nav-item">
                         <a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 单位模块</span></a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" kit-target data-options="{url:'test.html',icon:'&#xe770;',title:'表格',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 用户信息</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'test.html',icon:'&#xe770;',title:'用户信息',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 用户信息</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'main',icon:'&#xe770;',title:'单位信息',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 单位信息</span></a></dd>
                             <!--<dd><a href="javascript:;" data-url="form.html" data-icon="fa-user" data-title="表单" kit-target data-id='2'><i class="fa fa-user" aria-hidden="true"></i><span> 表单</span></a></dd>
                             <dd><a href="javascript:;" data-url="nav.html" data-icon="&#xe628;" data-title="导航栏" kit-target data-id='3'><i class="layui-icon">&#xe628;</i><span> 导航栏</span></a></dd>
                             <dd><a href="javascript:;" data-url="list4.html" data-icon="&#xe614;" data-title="列表四" kit-target data-id='4'><i class="layui-icon">&#xe614;</i><span> 列表四</span></a></dd>
@@ -49,7 +50,7 @@
                         <a href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 车辆模块</span></a>
                         <dl class="layui-nav-child">
                             <dd><a href="javascript:;" kit-target data-options="{url:'managecar',icon:'&#xe66c;',title:'车辆管理',id:'6'}"><i class="layui-icon">&#xe66c;</i><span> 车辆管理</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'tab.html',icon:'&#xe631;;',title:'维修管理',id:'7'}"><i class="layui-icon">&#xe631;</i><span> 维修管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'/maintananceRecord/list',icon:'&#xe631;;',title:'维修管理',id:'7'}"><i class="layui-icon">&#xe631;</i><span> 维修管理</span></a></dd>
                             <dd><a href="javascript:;" kit-target data-options="{url:'app.html',icon:'&#xe639;',title:'器材管理',id:'8'}"><i class="layui-icon">&#xe639;</i><span> 器材管理</span></a></dd>
                         </dl>
                     </li>
