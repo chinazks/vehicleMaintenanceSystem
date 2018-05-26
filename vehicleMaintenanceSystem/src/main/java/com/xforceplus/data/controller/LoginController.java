@@ -1,10 +1,8 @@
 package com.xforceplus.data.controller;
 
 
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
+import com.xforceplus.data.bean.User;
+import com.xforceplus.data.dao.VehicleUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.xforceplus.data.bean.User;
-import com.xforceplus.data.dao.VehicleUserRepository;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by admin on 2017/10/11.
@@ -49,7 +47,19 @@ public class LoginController {
     	session.setAttribute("updateid", id);
 		return "unitInformation/updateunitinformation";
     }
-    
+    @RequestMapping("/maintananceRecord/list")
+    public String maintananceRecordList(){
+        return "maintananceRecord/maintananceRecord_list";
+    }
+    @RequestMapping("/maintananceRecord/insert")
+    public String maintananceRecordInsert(){
+        return "maintananceRecord/maintananceRecord_insert";
+    }
+    @RequestMapping("/maintananceRecord/update/{id}")
+    public String maintananceRecordUpdate(HttpSession session,@PathVariable int id){
+        session.setAttribute("updateid", id);
+        return "maintananceRecord/maintananceRecord_update";
+    }
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
         User user = userLogin.findByUserNameAndPassword(userName,password);

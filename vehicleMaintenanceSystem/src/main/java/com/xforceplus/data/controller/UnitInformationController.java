@@ -1,12 +1,17 @@
 package com.xforceplus.data.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.xforceplus.data.bean.UnitInformation;
+import com.xforceplus.data.dao.UnitInformationRepository;
+import com.xforceplus.data.dao.UnitRepository;
+import com.xforceplus.data.tools.JSONResult;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.xforceplus.data.bean.UnitInformation;
-import com.xforceplus.data.dao.UnitInformationRepository;
-import com.xforceplus.data.dao.UnitRepository;
-import com.xforceplus.data.tools.JSONResult;
-
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/5/6 0006.
@@ -73,7 +72,7 @@ public class UnitInformationController {
         JSONObject object = new JSONObject();
         object.put("code", 0);
         object.put("msg", "");
-        object.put("count",unitInformationRepository.findAll().size());
+        object.put("count",unitInformationPage.getNumber());
         object.put("data", listMap);
         return  object.toString();
     }
@@ -179,7 +178,7 @@ public class UnitInformationController {
         int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
         String technicalStatus = request.getParameter("technicalStatus");
         UnitInformation unitInformation = new UnitInformation(unitId, equipmentModel, equipmentName, dispensingTime, stockQuantity, technicalStatus);
-        unitInformationRepository.delete(id);
+        unitInformation.setId(id);
         unitInformationRepository.save(unitInformation);
 		return JSONResult.build(200, "修改成功", "");
     }
