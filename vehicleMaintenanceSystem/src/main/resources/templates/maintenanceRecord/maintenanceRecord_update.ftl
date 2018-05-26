@@ -35,7 +35,7 @@
                 <td>
                     <label class="layui-form-label">车牌号</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="licensePlateNumber" value="${maintenanceRecord.licensePlateNumber}" autocomplete="off" maxlength="10" class="layui-input" lay-verify="require|lengthLess50">
+                        <input type="text" name="licensePlateNumber" value="${maintenanceRecord.licensePlateNumber}" autocomplete="off" maxlength="20" class="layui-input" lay-verify="require|lengthLess20">
                     </div>
                 </td>
                 <td>
