@@ -35,13 +35,13 @@
 			<td>
 				<label class="layui-form-label">装备型号</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="equipmentModel" autocomplete="off" class="layui-input">
+                    <input type="text" name="equipmentModel" autocomplete="off" maxlength="50" class="layui-input" lay-verify="require|lengthLess50">
                 </div>
 			</td>
 			<td>
 				<label class="layui-form-label">装备名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="equipmentName" autocomplete="off" class="layui-input">
+                    <input type="text" name="equipmentName" autocomplete="off" maxlength="50" class="layui-input" lay-verify="require|lengthLess50">
                 </div>
 			</td>
 		</tr>
@@ -50,19 +50,19 @@
 			<td>
 				<label class="layui-form-label">配发时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="dispensingTime" id="date" autocomplete="off" class="layui-input">
+                    <input type="text" name="dispensingTime" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
                 </div>
 			</td>
 			<td>
 				<label class="layui-form-label">数量</label>
                 <div class="layui-input-inline">
-                    <input type="number" name="stockQuantity" autocomplete="off" class="layui-input">
+                    <input type="number" name="stockQuantity" autocomplete="off" maxlength="9" class="layui-input" lay-verify="require|stockQuantity">
                 </div>
 			</td>
 			<td>
 				<label class="layui-form-label">技术状况</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="technicalStatus" autocomplete="off" class="layui-input">
+                    <input type="text" name="technicalStatus" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|technicalStatus">
                 </div>
 			</td>
 		</tr>
@@ -90,7 +90,25 @@
             laydate.render({
                 elem: '#date'
             });
-
+            //自定义验证规则
+            form.verify({
+                require:[
+                    /^.{1,}$/
+                    ,'字段必填'
+                ],
+                lengthLess50:[
+                    /^.{1,50}$/
+                    ,'长度小于50'
+                ],
+                stockQuantity:[
+                    /^[0-9]{8}$/
+                    ,'数量不能大于1亿'
+                ],
+                technicalStatus:[
+                    /^.{1,100}$/
+                    ,'长度小于100'
+                ]
+            });
             var $ = layui.$;
 			 $.ajax({
                 url: '/unitInformation/updateinfo/',
