@@ -34,7 +34,7 @@ public class ReleaseRecord implements Serializable {
     /**
      * 器材编码 对应配件id
      */
-    @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
+    @Column(name = "accessories_id",columnDefinition = "varchar(50)")
     private String accessoriesId;
     /**
      * 规格
