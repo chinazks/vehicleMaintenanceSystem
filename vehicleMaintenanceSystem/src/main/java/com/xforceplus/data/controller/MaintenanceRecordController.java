@@ -286,7 +286,6 @@ public class MaintenanceRecordController {
     }catch (Exception e){
      TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
     }
-    maintenanceRecordRepository.save(maintenanceRecord);
    }
   } catch (BiffException | IOException e) {
    e.printStackTrace();
