@@ -62,7 +62,8 @@
                         <dl class="layui-nav-child">
                             <dd><a href="javascript:;" kit-target data-options="{url:'managecar',icon:'&#xe66c;',title:'车辆管理',id:'6'}"><i class="layui-icon">&#xe66c;</i><span> 车辆管理</span></a></dd>
                             <dd><a href="javascript:;" kit-target data-options="{url:'/maintenanceRecord_list',icon:'&#xe631;;',title:'维修管理',id:'7'}"><i class="layui-icon">&#xe631;</i><span> 维修管理</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'/equipmenetMmanagement_list.html',icon:'&#xe639;',title:'器材管理',id:'8'}"><i class="layui-icon">&#xe639;</i><span> 器材管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'app.html',icon:'&#xe639;',title:'器材管理',id:'8'}"><i class="layui-icon">&#xe639;</i><span> 器材管理</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'/releaseRecord_list',icon:'&#xe770;',title:'发放记录',id:'1'}"><i class="layui-icon">&#xe770;</i><span>发放记录</span></a></dd>
                         </dl>
                     </li>
                    <!-- <li class="layui-nav-item">
