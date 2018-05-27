@@ -2,10 +2,13 @@ package com.xforceplus.data.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xforceplus.data.bean.MaintenanceRecord;
+import com.xforceplus.data.bean.ReleaseRecord;
 import com.xforceplus.data.bean.Unit;
 import com.xforceplus.data.dao.MaintenanceRecordRepository;
+import com.xforceplus.data.dao.ReleaseRecordRepository;
 import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.tools.JSONResult;
+import com.xforceplus.data.tools.StringUtil;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -16,16 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Administrator on 2018/5/26 0026.
@@ -38,6 +41,8 @@ public class MaintenanceRecordController {
  private MaintenanceRecordRepository maintenanceRecordRepository;
  @Autowired
  private UnitRepository unitRepository;
+ @Autowired
+ private ReleaseRecordRepository releaseRecordRepository;
  //获取所有unitinformation数据
  @RequestMapping("/list")
  @ResponseBody
@@ -80,6 +85,7 @@ public class MaintenanceRecordController {
 
  @RequestMapping(value = "/insert",method = RequestMethod.POST)
  @ResponseBody
+ @Transactional
  public JSONResult equmentManagementInsert(@RequestParam("unitId") String unitId,
                                        @RequestParam("licensePlateNumber") String licensePlateNumber,
                                        @RequestParam("driverName") String driverName,
@@ -90,11 +96,34 @@ public class MaintenanceRecordController {
                                        @RequestParam("lackOfAccessories") String lackOfAccessories,
                                        @RequestParam("maintenancePrice") String maintenancePrice,
                                        @RequestParam("maintenanceTime") String maintenanceTime,
-                                       @RequestParam("remark") String remark) {
-    MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,vehicleType,accessoriesId,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
-    maintenanceRecordRepository.save(maintenanceRecord);
-
-   return JSONResult.build(200, "新增成功", "");
+                                       @RequestParam("remark") String remark,
+                                           @RequestParam("accessoriesNumber") int accessoriesNumber,
+                                           @RequestParam("materialReceiveUnit") String materialReceiveUnit) {
+      MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,materialReceiveUnit,vehicleType,accessoriesId,accessoriesNumber,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       //增加发放记录
+      ReleaseRecord releaseRecord = new ReleaseRecord();
+      releaseRecord.setMaterialIssuingUnit(storeRoom);
+      releaseRecord.setMaterialReceiveUnit(materialReceiveUnit);//收料单位
+      releaseRecord.setOutboundCategory(StringUtil.outboundCategory);
+      releaseRecord.setAccessoriesId(accessoriesId);
+      releaseRecord.setSpecification(null);//规格
+      releaseRecord.setUnits(null);//单位
+      releaseRecord.setOrginalNumber(null);//原厂编号
+      releaseRecord.setDeliveryNumber(accessoriesNumber);//出库数
+      releaseRecord.setPrice(maintenancePrice);//单价
+      releaseRecord.setLicensePlateNumber(licensePlateNumber);//车牌号
+      releaseRecord.setDeliveryDate(sdf.format(new Date()));//发放日期
+      releaseRecord.setSumMoney(String.valueOf(Double.parseDouble(maintenancePrice)*accessoriesNumber));//总金额
+      releaseRecord.setReponsiableName(null);
+      releaseRecord.setUuid(UUID.randomUUID().toString());
+      try {
+         maintenanceRecordRepository.save(maintenanceRecord);
+         releaseRecordRepository.save(releaseRecord);
+      }catch (Exception e){
+         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+      }
+      return JSONResult.build(200, "新增成功", "");
  }
 
  @RequestMapping(value = "/update/{id}",method = RequestMethod.GET)
@@ -120,18 +149,26 @@ public class MaintenanceRecordController {
                                        @RequestParam("useOfAccessories") String useOfAccessories,
                                        @RequestParam("lackOfAccessories") String lackOfAccessories,
                                        @RequestParam("maintenancePrice") String maintenancePrice,
+                                           @RequestParam("accessoriesNumber") int accessoriesNumber,
                                        @RequestParam("maintenanceTime") String maintenanceTime,
-                                       @RequestParam("remark") String remark) {
-  MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,vehicleType,accessoriesId,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
+                                       @RequestParam("remark") String remark,
+                                           @RequestParam("materialReceiveUnit") String materialReceiveUnit) {
+  MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,materialReceiveUnit,vehicleType,accessoriesId,accessoriesNumber,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
   maintenanceRecord.setId(id);
   maintenanceRecordRepository.save(maintenanceRecord);
-  return JSONResult.build(200, "新增成功", "");
+  return JSONResult.build(200, "编辑成功", "");
  }
 
  @RequestMapping(value = "/delete",method = RequestMethod.POST)
  @ResponseBody
+ @Transactional
  public JSONResult equmentManagementDelete(@RequestParam("id") Long id) {
-  maintenanceRecordRepository.delete(id);
+  MaintenanceRecord maintenanceRecord = maintenanceRecordRepository.findOne(id);
+    maintenanceRecordRepository.delete(id);
+    ReleaseRecord releaseRecord = releaseRecordRepository.findAllByUuid(maintenanceRecord.getUuid());
+    if(releaseRecord != null){
+     releaseRecordRepository.deleteAllByUuid(maintenanceRecord.getUuid());
+    }
   return JSONResult.build(200, "删除成功", "");
  }
 
@@ -160,13 +197,14 @@ public class MaintenanceRecordController {
    sheet.addCell(new Label(1,0,"车牌号"));
    sheet.addCell(new Label(2,0,"司机名称"));
    sheet.addCell(new Label(3,0,"库房号"));
-   sheet.addCell(new Label(4,0,"车辆类型"));
-   sheet.addCell(new Label(5,0,"配件id"));
-   sheet.addCell(new Label(6,0,"配件使用情况"));
-   sheet.addCell(new Label(7,0,"配件缺少情况"));
-   sheet.addCell(new Label(8,0,"维修价格"));
-   sheet.addCell(new Label(9,0,"维修时间"));
-   sheet.addCell(new Label(10,0,"备注"));
+   sheet.addCell(new Label(4,0,"使用单位"));
+   sheet.addCell(new Label(5,0,"车辆类型"));
+   sheet.addCell(new Label(6,0,"配件id"));
+   sheet.addCell(new Label(7,0,"配件使用情况"));
+   sheet.addCell(new Label(8,0,"配件缺少情况"));
+   sheet.addCell(new Label(9,0,"维修价格"));
+   sheet.addCell(new Label(10,0,"维修时间"));
+   sheet.addCell(new Label(11,0,"备注"));
    //添加数据
 
    for(int i=0;i<list.size();i++){
@@ -174,13 +212,15 @@ public class MaintenanceRecordController {
     sheet.addCell(new Label(1,i+1,list.get(i).getLicensePlateNumber()));
     sheet.addCell(new Label(2,i+1,list.get(i).getDriverName()));
     sheet.addCell(new Label(3,i+1,list.get(i).getStoreRoom()));
-    sheet.addCell(new Label(4,i+1,list.get(i).getVehicleType()));
-    sheet.addCell(new Label(5,i+1,list.get(i).getAccessoriesId()));
-    sheet.addCell(new Label(6,i+1,list.get(i).getUseOfAccessories()));
-    sheet.addCell(new Label(7,i+1,list.get(i).getLackOfAccessories()));
-    sheet.addCell(new Label(8,i+1,list.get(i).getMaintenancePrice()));
-    sheet.addCell(new Label(9,i+1,list.get(i).getMaintenanceTime()));
-    sheet.addCell(new Label(10,i+1,list.get(i).getRemark()));
+    sheet.addCell(new Label(4,i+1,list.get(i).getMaterialReceiveUnit()));
+    sheet.addCell(new Label(5,i+1,list.get(i).getVehicleType()));
+    sheet.addCell(new Label(6,i+1,list.get(i).getAccessoriesId()));
+    sheet.addCell(new jxl.write.Number(7,i+1,list.get(i).getAccessoriesNumber()));
+    sheet.addCell(new Label(8,i+1,list.get(i).getUseOfAccessories()));
+    sheet.addCell(new Label(9,i+1,list.get(i).getLackOfAccessories()));
+    sheet.addCell(new Label(10,i+1,list.get(i).getMaintenancePrice()));
+    sheet.addCell(new Label(11,i+1,list.get(i).getMaintenanceTime()));
+    sheet.addCell(new Label(12,i+1,list.get(i).getRemark()));
    }
    book.write();//将所做的操作写入
    book.close();//关闭文件
@@ -211,16 +251,41 @@ public class MaintenanceRecordController {
    for (int i = 1; i < sheet.getRows(); i++) {
     MaintenanceRecord maintenanceRecord = new MaintenanceRecord();
     maintenanceRecord.setUnitId(sheet.getCell(0,i).getContents());
-    maintenanceRecord.setLicensePlateNumber((sheet.getCell(1,i).getContents()));
+    maintenanceRecord.setLicensePlateNumber(sheet.getCell(1,i).getContents());
     maintenanceRecord.setDriverName(sheet.getCell(2,i).getContents());
     maintenanceRecord.setStoreRoom(sheet.getCell(3,i).getContents());
-    maintenanceRecord.setVehicleType(sheet.getCell(4, i).getContents());
-    maintenanceRecord.setAccessoriesId(sheet.getCell(5,i).getContents());
-    maintenanceRecord.setUseOfAccessories(sheet.getCell(6,i).getContents());
-    maintenanceRecord.setLackOfAccessories((sheet.getCell(7,i).getContents()));
-    maintenanceRecord.setMaintenancePrice(sheet.getCell(8,i).getContents());
-    maintenanceRecord.setMaintenanceTime(sheet.getCell(9,i).getContents());
-    maintenanceRecord.setRemark(sheet.getCell(10,i).getContents());
+    maintenanceRecord.setMaterialReceiveUnit(sheet.getCell(4,i).getContents());
+    maintenanceRecord.setVehicleType(sheet.getCell(5, i).getContents());
+    maintenanceRecord.setAccessoriesId(sheet.getCell(6,i).getContents());
+    maintenanceRecord.setAccessoriesNumber(Integer.parseInt(sheet.getCell(7,i).getContents()));
+    maintenanceRecord.setUseOfAccessories(sheet.getCell(8,i).getContents());
+    maintenanceRecord.setLackOfAccessories((sheet.getCell(9,i).getContents()));
+    maintenanceRecord.setMaintenancePrice(sheet.getCell(10,i).getContents());
+    maintenanceRecord.setMaintenanceTime(sheet.getCell(11,i).getContents());
+    maintenanceRecord.setRemark(sheet.getCell(12,i).getContents());
+   //发放记录
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    ReleaseRecord releaseRecord = new ReleaseRecord();
+    releaseRecord.setMaterialIssuingUnit(sheet.getCell(3,i).getContents());
+    releaseRecord.setMaterialReceiveUnit(sheet.getCell(4,i).getContents());//收料单位
+    releaseRecord.setOutboundCategory(StringUtil.outboundCategory);
+    releaseRecord.setAccessoriesId(sheet.getCell(6,i).getContents());
+    releaseRecord.setSpecification(null);//规格
+    releaseRecord.setUnits(null);//单位
+    releaseRecord.setOrginalNumber(null);//原厂编号
+    releaseRecord.setDeliveryNumber(Integer.parseInt(sheet.getCell(7,i).getContents()));//出库数
+    releaseRecord.setPrice(sheet.getCell(10,i).getContents());//单价
+    releaseRecord.setLicensePlateNumber(sheet.getCell(1,i).getContents());//车牌号
+    releaseRecord.setDeliveryDate(sdf.format(new Date()));//发放日期
+    releaseRecord.setSumMoney(String.valueOf(Double.parseDouble(sheet.getCell(10,i).getContents())*Integer.parseInt(sheet.getCell(7,i).getContents())));//总金额
+    releaseRecord.setReponsiableName(null);
+    releaseRecord.setUuid(UUID.randomUUID().toString());
+    try {
+     maintenanceRecordRepository.save(maintenanceRecord);
+     releaseRecordRepository.save(releaseRecord);
+    }catch (Exception e){
+     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+    }
     maintenanceRecordRepository.save(maintenanceRecord);
    }
   } catch (BiffException | IOException e) {

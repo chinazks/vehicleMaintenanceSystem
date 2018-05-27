@@ -82,6 +82,13 @@ public class ReleaseRecord implements Serializable {
     @Column(name = "reponsiable_name",columnDefinition = "varchar(10)",length = 10)
     private String reponsiableName;
 
+    /**
+     * uuid 唯一一一对应来源
+     * @return
+     */
+    @Column(name = "uuid",columnDefinition = "varchar(50)",length = 50)
+    private String uuid;
+
     public Long getId() {
         return id;
     }
@@ -192,5 +199,49 @@ public class ReleaseRecord implements Serializable {
 
     public void setReponsiableName(String reponsiableName) {
         this.reponsiableName = reponsiableName;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public ReleaseRecord() {
+    }
+
+    public ReleaseRecord(String materialIssuingUnit, String materialReceiveUnit, String outboundCategory, String accessoriesId, String specification, String units, String orginalNumber, int deliveryNumber, String price, String licensePlateNumber, String deliveryDate, String sumMoney, String reponsiableName) {
+        this.materialIssuingUnit = materialIssuingUnit;
+        this.materialReceiveUnit = materialReceiveUnit;
+        this.outboundCategory = outboundCategory;
+        this.accessoriesId = accessoriesId;
+        this.specification = specification;
+        this.units = units;
+        this.orginalNumber = orginalNumber;
+        this.deliveryNumber = deliveryNumber;
+        this.price = price;
+        this.licensePlateNumber = licensePlateNumber;
+        this.deliveryDate = deliveryDate;
+        this.sumMoney = sumMoney;
+        this.reponsiableName = reponsiableName;
+    }
+
+    public ReleaseRecord(String materialIssuingUnit, String materialReceiveUnit, String outboundCategory, String accessoriesId, String specification, String units, String orginalNumber, int deliveryNumber, String price, String licensePlateNumber, String deliveryDate, String sumMoney, String reponsiableName, String uuid) {
+        this.materialIssuingUnit = materialIssuingUnit;
+        this.materialReceiveUnit = materialReceiveUnit;
+        this.outboundCategory = outboundCategory;
+        this.accessoriesId = accessoriesId;
+        this.specification = specification;
+        this.units = units;
+        this.orginalNumber = orginalNumber;
+        this.deliveryNumber = deliveryNumber;
+        this.price = price;
+        this.licensePlateNumber = licensePlateNumber;
+        this.deliveryDate = deliveryDate;
+        this.sumMoney = sumMoney;
+        this.reponsiableName = reponsiableName;
+        this.uuid = uuid;
     }
 }

@@ -47,6 +47,11 @@ public class MaintenanceRecord implements Serializable {
     @Column(name = "accessories_id",columnDefinition = "varchar(50)",length = 50)
     private String accessoriesId;
     /**
+     * 使用数量
+     */
+    @Column(name = "accessories_number",columnDefinition = "int",length = 50)
+    private int accessoriesNumber;
+    /**
      * 配件使用情况
      */
     @Column(name = "use_of_accessories",length = 100)
@@ -71,6 +76,33 @@ public class MaintenanceRecord implements Serializable {
      */
     @Column(name = "remark",length = 500)
     private String remark;
+    /**
+     * 使用单位materialReceiveUnit
+     */
+    @Column(name = "material_receive_unit",columnDefinition = "varchar(50)",length = 500)
+    private String materialReceiveUnit;
+    /**
+     * uuid 唯一一一对应发放记录
+     * @return
+     */
+    @Column(name = "uuid",columnDefinition = "varchar(50)",length = 50)
+    private String uuid;
+
+    public int getAccessoriesNumber() {
+        return accessoriesNumber;
+    }
+
+    public void setAccessoriesNumber(int accessoriesNumber) {
+        this.accessoriesNumber = accessoriesNumber;
+    }
+
+    public String getMaterialReceiveUnit() {
+        return materialReceiveUnit;
+    }
+
+    public void setMaterialReceiveUnit(String materialReceiveUnit) {
+        this.materialReceiveUnit = materialReceiveUnit;
+    }
 
     public Long getId() {
         return id;
@@ -171,17 +203,44 @@ public class MaintenanceRecord implements Serializable {
         this.lackOfAccessories = lackOfAccessories;
     }
 
-    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, String storeRoom, String vehicleType, String accessoriesId, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark) {
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, String storeRoom, String materialReceiveUnit ,String vehicleType, String accessoriesId, int accessoriesNumber, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark) {
         this.unitId = unitId;
         this.licensePlateNumber = licensePlateNumber;
         this.driverName = driverName;
         this.storeRoom = storeRoom;
         this.vehicleType = vehicleType;
         this.accessoriesId = accessoriesId;
+        this.accessoriesNumber = accessoriesNumber;
         this.useOfAccessories = useOfAccessories;
         this.lackOfAccessories = lackOfAccessories;
         this.maintenancePrice = maintenancePrice;
         this.maintenanceTime = maintenanceTime;
         this.remark = remark;
+        this.materialReceiveUnit = materialReceiveUnit;
+    }
+
+    public MaintenanceRecord(String unitId, String licensePlateNumber, String driverName, String storeRoom,String materialReceiveUnit, String vehicleType, String accessoriesId, int accessoriesNumber, String useOfAccessories, String lackOfAccessories, String maintenancePrice, String maintenanceTime, String remark, String uuid) {
+        this.unitId = unitId;
+        this.licensePlateNumber = licensePlateNumber;
+        this.driverName = driverName;
+        this.storeRoom = storeRoom;
+        this.vehicleType = vehicleType;
+        this.accessoriesId = accessoriesId;
+        this.accessoriesNumber = accessoriesNumber;
+        this.useOfAccessories = useOfAccessories;
+        this.lackOfAccessories = lackOfAccessories;
+        this.maintenancePrice = maintenancePrice;
+        this.maintenanceTime = maintenanceTime;
+        this.remark = remark;
+        this.materialReceiveUnit = materialReceiveUnit;
+        this.uuid = uuid;
     }
 }

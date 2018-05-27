@@ -83,16 +83,28 @@
                 <td>
                     <label class="layui-form-label">维修价格</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="maintenancePrice" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
+                        <input type="text" name="accessoriesNumber" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
                     </div>
                 </td>
             </tr>
             <tr><td colspan="3" height="10"></td></tr>
             <tr>
                 <td>
+                    <label class="layui-form-label">数量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="maintenanceTime" maxlength="9" autocomplete="off" class="layui-input" lay-verify="require|number">
+                    </div>
+                </td>
+                <td>
                     <label class="layui-form-label">维修时间</label>
                     <div class="layui-input-inline">
                         <input type="text" name="maintenanceTime" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">使用单位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="materialReceiveUnit" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require">
                     </div>
                 </td>
             </tr>
@@ -140,6 +152,10 @@
                 /^.{1,20}$/
                 ,'长度小于50'
             ],
+            number:[
+                /^[0-9]{0,9}$/
+                    ,'数量填写有误'
+            ]
             price:[
                 /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/
                     ,'价格填写有误'
