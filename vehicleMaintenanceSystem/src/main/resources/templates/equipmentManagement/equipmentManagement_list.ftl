@@ -37,7 +37,7 @@
          upload.render({
 		    elem: '#leadexcel'
 		    ,method: 'post'
-		    ,url: '/unitInformation/lead'
+		    ,url: '/equipmentManagement/lead'
 		    ,accept: 'file'
 		    ,exts:'xls' //上传文件后缀
 		    ,done: function(res){ 
@@ -55,18 +55,18 @@
         elem: '#unit'
         ,url: '/equipmentManagement/list'
         ,cols: [[
-        	{field:'storeRoom', width:150, title:'库房号'}
-            ,{field:'licensePlateNumber', width:150, title:'车牌号'}
-            ,{field:'vehicleType', width:150, title:'车辆类型'}
-            ,{field:'accessoriesId', width:150, title:'配件id'}
+        	{field:'storeRoom', width:80, title:'库房号'}
+            ,{field:'licensePlateNumber', width:80, title:'车牌号'}
+            ,{field:'vehicleType', width:80, title:'车辆类型'}
+            ,{field:'accessoriesId', width:80, title:'配件id'}
             ,{field:'accessoriesName', width:80, title:'配件名',sort: true}
-            ,{field:'specifications', width:150, title:'规格'}
-            ,{field:'originalFactoryNumber', width:150, title:'原厂编号'}
-            ,{field:'unit', width:150, title:'单位'}
-            ,{field:'warehouseUnitPrice', width:150, title:'入库单价'}
-            ,{field:'stock', width:150, title:'库房总库存'}
-            ,{field:'goodsNum', width:150, title:'货位号'}
-            ,{field:'deliveryDate', width:150, title:'到货日期'}
+            ,{field:'specifications', width:80, title:'规格'}
+            ,{field:'originalFactoryNumber', width:80, title:'原厂编号'}
+            ,{field:'unit', width:80, title:'单位'}
+            ,{field:'warehouseUnitPrice', width:80, title:'入库单价'}
+            ,{field:'stock', width:80, title:'库房总库存'}
+            ,{field:'goodsNum', width:80, title:'货位号'}
+            ,{field:'deliveryDate', width:80, title:'到货日期'}
             ,{field:'right', title: '操作', width:250, height:80, toolbar:"#barDemo"}
         ]]
         ,id: 'testReload'
