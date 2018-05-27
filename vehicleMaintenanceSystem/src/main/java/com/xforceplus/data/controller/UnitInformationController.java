@@ -72,7 +72,7 @@ public class UnitInformationController {
         JSONObject object = new JSONObject();
         object.put("code", 0);
         object.put("msg", "");
-        object.put("count",unitInformationPage.getNumber());
+        object.put("count",unitInformationRepository.findAll().size());
         object.put("data", listMap);
         return  object.toString();
     }

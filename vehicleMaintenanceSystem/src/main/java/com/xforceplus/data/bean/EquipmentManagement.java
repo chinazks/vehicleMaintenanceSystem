@@ -66,8 +66,8 @@ public class EquipmentManagement implements Serializable {
     /**
      * 入库单价
      */
-    @Column(name = "warehouse_unit_price",columnDefinition = "double")
-    private double warehouseUnitPrice;
+    @Column(name = "warehouse_unit_price",length = 50)
+    private String warehouseUnitPrice;
     /**
      * 库房总库存
      */
@@ -166,11 +166,11 @@ public class EquipmentManagement implements Serializable {
         this.unit = unit;
     }
 
-    public double getWarehouseUnitPrice() {
+    public String getWarehouseUnitPrice() {
         return warehouseUnitPrice;
     }
 
-    public void setWarehouseUnitPrice(double warehouseUnitPrice) {
+    public void setWarehouseUnitPrice(String warehouseUnitPrice) {
         this.warehouseUnitPrice = warehouseUnitPrice;
     }
 
@@ -197,5 +197,31 @@ public class EquipmentManagement implements Serializable {
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
+	public EquipmentManagement(String storeRoom, String materialIssuingUnit, String licensePlateNumber,
+			String vehicleType, String accessoriesId, String accessoriesName, String specifications,
+			String originalFactoryNumber, String unit, String warehouseUnitPrice, int stock, String goodsNum,
+			String deliveryDate) {
+		super();
+		this.storeRoom = storeRoom;
+		this.materialIssuingUnit = materialIssuingUnit;
+		this.licensePlateNumber = licensePlateNumber;
+		this.vehicleType = vehicleType;
+		this.accessoriesId = accessoriesId;
+		this.accessoriesName = accessoriesName;
+		this.specifications = specifications;
+		this.originalFactoryNumber = originalFactoryNumber;
+		this.unit = unit;
+		this.warehouseUnitPrice = warehouseUnitPrice;
+		this.stock = stock;
+		this.goodsNum = goodsNum;
+		this.deliveryDate = deliveryDate;
+	}
+
+	public EquipmentManagement() {
+		super();
+	}
+    
+    
 
 }

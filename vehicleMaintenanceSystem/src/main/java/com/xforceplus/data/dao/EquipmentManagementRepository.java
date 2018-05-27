@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EquipmentManagementRepository extends JpaRepository<EquipmentManagement,Long> {
+	EquipmentManagement findAllByAccessoriesIdAndStoreRoom(String accessoriesId,String storeRoom);
 }

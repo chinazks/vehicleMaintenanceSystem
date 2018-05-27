@@ -77,10 +77,23 @@ public class LoginController {
         map.put("unitList",unitList);
         return "maintenanceRecord/maintenanceRecord_insert";
     }
+    
     @RequestMapping("/maintenanceRecord_update")
     public String maintenanceRecordUpdate(){
         return "maintenanceRecord/maintenanceRecord_update";
     }
+    
+    @RequestMapping("/equipmenetMmanagement_list")
+    public String equipmenetManagement_list(){
+        return "equipmentManagement/equipmentManagement_list";
+    }
+    
+    
+    @RequestMapping("/addequipmentManagement")
+    public String addequitmentManagement() {
+    	return "equipmentManagement/equipmentmanagement_insert";
+    }
+    
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
         User user = userLogin.findByUserNameAndPassword(userName,password);
