@@ -24,6 +24,11 @@ public class EquipmentManagement implements Serializable {
     @Column(name = "store_room",columnDefinition = "varchar(10)",length = 10)
     private String storeRoom;
     /**
+     * 收料单位
+     */
+    @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
+    private String material_issuing_unit;
+    /**
      * 车牌号
      */
     @Column(name = "license_plate_number",length = 10)
@@ -78,6 +83,14 @@ public class EquipmentManagement implements Serializable {
      */
     @Column(name = "delivery_date",columnDefinition = "varchar(10)")
     private String deliveryDate;
+
+    public String getMaterial_issuing_unit() {
+        return material_issuing_unit;
+    }
+
+    public void setMaterial_issuing_unit(String material_issuing_unit) {
+        this.material_issuing_unit = material_issuing_unit;
+    }
 
     public Long getId() {
         return id;
