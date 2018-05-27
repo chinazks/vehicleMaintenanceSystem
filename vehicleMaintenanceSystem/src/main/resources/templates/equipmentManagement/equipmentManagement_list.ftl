@@ -15,7 +15,7 @@
 
 <body>
 <div style="width:500px;height:30px;padding-left:20px;"></div>
-<a href="addunitinformation" class="layui-btn">新增</a>
+<a href="/addequipmentManagement" class="layui-btn">新增</a>
 <button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
 <a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
 <a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
