@@ -27,7 +27,7 @@ public class EquipmentManagement implements Serializable {
      * 收料单位
      */
     @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
-    private String material_issuing_unit;
+    private String materialIssuingUnit;
     /**
      * 车牌号
      */
@@ -84,13 +84,7 @@ public class EquipmentManagement implements Serializable {
     @Column(name = "delivery_date",columnDefinition = "varchar(10)")
     private String deliveryDate;
 
-    public String getMaterial_issuing_unit() {
-        return material_issuing_unit;
-    }
 
-    public void setMaterial_issuing_unit(String material_issuing_unit) {
-        this.material_issuing_unit = material_issuing_unit;
-    }
 
     public Long getId() {
         return id;
@@ -150,6 +144,14 @@ public class EquipmentManagement implements Serializable {
 
     public String getOriginalFactoryNumber() {
         return originalFactoryNumber;
+    }
+
+    public String getMaterialIssuingUnit() {
+        return materialIssuingUnit;
+    }
+
+    public void setMaterialIssuingUnit(String materialIssuingUnit) {
+        this.materialIssuingUnit = materialIssuingUnit;
     }
 
     public void setOriginalFactoryNumber(String originalFactoryNumber) {
