@@ -33,7 +33,7 @@ public class MaintenanceRecord implements Serializable {
     /**
      * 库房号
      */
-    @Column(name = "store_room",length = 4)
+    @Column(name = "store_room",length = 10)
     private String storeRoom;
     /**
      * 车辆类型
