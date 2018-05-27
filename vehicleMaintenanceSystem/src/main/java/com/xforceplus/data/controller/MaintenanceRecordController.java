@@ -128,11 +128,19 @@ public class MaintenanceRecordController {
   return JSONResult.build(200, "新增成功", "");
  }
 
+ @RequestMapping(value = "/delete",method = RequestMethod.POST)
+ @ResponseBody
+ public JSONResult equmentManagementDelete(@RequestParam("id") Long id) {
+  maintenanceRecordRepository.delete(id);
+  return JSONResult.build(200, "删除成功", "");
+ }
+
  //导出excel
  @RequestMapping("/putout")
  @ResponseBody
  public JSONResult putout(HttpServletRequest request){
-  String path = Class.class.getClass().getResource("/").getPath()+"/static/download/";
+ // String path = Class.class.getClass().getResource("/").getPath()+"/static/download/";
+  String path = "E://upload";
   ArrayList<MaintenanceRecord> list=new ArrayList<MaintenanceRecord>();
   list = (ArrayList<MaintenanceRecord>) maintenanceRecordRepository.findAll();
   try {
@@ -140,11 +148,11 @@ public class MaintenanceRecordController {
    if (!files.exists()) {
     files.mkdirs();
    }
-   File file=new File(path+"/unitinformation.xls");
+   File file=new File(path+"/maintenanceRecord.xls");
    if(file.exists()){
     file.delete();
    }
-   WritableWorkbook book= Workbook.createWorkbook(new File(path+"/unitinformation.xls"));
+   WritableWorkbook book= Workbook.createWorkbook(new File(path+"/maintenanceRecord.xls"));
    //设置表名
    WritableSheet sheet=book.createSheet("维修记录",0);
    //设置表第一行
@@ -154,12 +162,11 @@ public class MaintenanceRecordController {
    sheet.addCell(new Label(3,0,"库房号"));
    sheet.addCell(new Label(4,0,"车辆类型"));
    sheet.addCell(new Label(5,0,"配件id"));
-
-   sheet.addCell(new Label(0,0,"配件使用情况"));
-   sheet.addCell(new Label(1,0,"配件缺少情况"));
-   sheet.addCell(new Label(2,0,"维修价格"));
-   sheet.addCell(new Label(3,0,"维修时间"));
-   sheet.addCell(new Label(4,0,"备注"));
+   sheet.addCell(new Label(6,0,"配件使用情况"));
+   sheet.addCell(new Label(7,0,"配件缺少情况"));
+   sheet.addCell(new Label(8,0,"维修价格"));
+   sheet.addCell(new Label(9,0,"维修时间"));
+   sheet.addCell(new Label(10,0,"备注"));
    //添加数据
 
    for(int i=0;i<list.size();i++){
@@ -169,27 +176,25 @@ public class MaintenanceRecordController {
     sheet.addCell(new Label(3,i+1,list.get(i).getStoreRoom()));
     sheet.addCell(new Label(4,i+1,list.get(i).getVehicleType()));
     sheet.addCell(new Label(5,i+1,list.get(i).getAccessoriesId()));
-    sheet.addCell(new Label(6,i+1,list.get(i).getVehicleType()));
-    sheet.addCell(new Label(7,i+1,list.get(i).getAccessoriesId()));
-    sheet.addCell(new Label(8,i+1,list.get(i).getUseOfAccessories()));
-    sheet.addCell(new Label(9,i+1,list.get(i).getLackOfAccessories()));
-    sheet.addCell(new Label(10,i+1,list.get(i).getMaintenancePrice()));
-    sheet.addCell(new Label(11,i+1,list.get(i).getMaintenanceTime()));
-    sheet.addCell(new Label(12,i+1,list.get(i).getRemark()));
+    sheet.addCell(new Label(6,i+1,list.get(i).getUseOfAccessories()));
+    sheet.addCell(new Label(7,i+1,list.get(i).getLackOfAccessories()));
+    sheet.addCell(new Label(8,i+1,list.get(i).getMaintenancePrice()));
+    sheet.addCell(new Label(9,i+1,list.get(i).getMaintenanceTime()));
+    sheet.addCell(new Label(10,i+1,list.get(i).getRemark()));
    }
    book.write();//将所做的操作写入
    book.close();//关闭文件
   } catch (Exception e) {
    e.printStackTrace();
   }
-  return JSONResult.build(200, "生成excel", "download/unitinformation.xls");
+  return JSONResult.build(200, "生成excel", "download/maintenanceRecord.xls");
  }
 
  //导入excel
  @RequestMapping(value = "/lead", method = RequestMethod.POST)
  @ResponseBody
  public String lead(MultipartFile file) {
-  String path = Class.class.getClass().getResource("/").getPath()+"static/upload/";
+  String path = "E://upload";
   String fielName = file.getOriginalFilename();
   File files=new File(path);
   if (!files.exists()) {
@@ -211,11 +216,11 @@ public class MaintenanceRecordController {
     maintenanceRecord.setStoreRoom(sheet.getCell(3,i).getContents());
     maintenanceRecord.setVehicleType(sheet.getCell(4, i).getContents());
     maintenanceRecord.setAccessoriesId(sheet.getCell(5,i).getContents());
-    maintenanceRecord.setUseOfAccessories(sheet.getCell(0,i).getContents());
-    maintenanceRecord.setLackOfAccessories((sheet.getCell(1,i).getContents()));
-    maintenanceRecord.setMaintenancePrice(sheet.getCell(2,i).getContents());
-    maintenanceRecord.setMaintenanceTime(sheet.getCell(3,i).getContents());
-    maintenanceRecord.setRemark(sheet.getCell(5,i).getContents());
+    maintenanceRecord.setUseOfAccessories(sheet.getCell(6,i).getContents());
+    maintenanceRecord.setLackOfAccessories((sheet.getCell(7,i).getContents()));
+    maintenanceRecord.setMaintenancePrice(sheet.getCell(8,i).getContents());
+    maintenanceRecord.setMaintenanceTime(sheet.getCell(9,i).getContents());
+    maintenanceRecord.setRemark(sheet.getCell(10,i).getContents());
     maintenanceRecordRepository.save(maintenanceRecord);
    }
   } catch (BiffException | IOException e) {

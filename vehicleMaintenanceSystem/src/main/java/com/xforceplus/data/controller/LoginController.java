@@ -78,8 +78,7 @@ public class LoginController {
         return "maintenanceRecord/maintenanceRecord_insert";
     }
     @RequestMapping("/maintenanceRecord_update")
-    public String maintenanceRecordUpdate(HttpSession session,@PathVariable int id){
-        session.setAttribute("updateid", id);
+    public String maintenanceRecordUpdate(){
         return "maintenanceRecord/maintenanceRecord_update";
     }
     @RequestMapping("/homePage")
