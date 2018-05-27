@@ -24,12 +24,12 @@ public class ReleaseRecord implements Serializable {
     /**
      * 收料单位
      */
-    @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
+    @Column(name = "material_receive_unit",columnDefinition = "varchar(50)")
     private String materialReceiveUnit;
     /**
      * 出库类别
      */
-    @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
+    @Column(name = "outbound_category",columnDefinition = "varchar(50)")
     private String outboundCategory;
     /**
      * 器材编码 对应配件id
@@ -49,17 +49,17 @@ public class ReleaseRecord implements Serializable {
     /**
      * 原厂编号
      */
-    @Column(name = "units",columnDefinition = "varchar(50)")
+    @Column(name = "orginal_number",columnDefinition = "varchar(50)")
     private String orginalNumber;
     /**
      * 出库数
      */
-    @Column(name = "units",columnDefinition = "int")
+    @Column(name = "delivery_number",columnDefinition = "int")
     private int deliveryNumber;
     /**
      * 供应单价
      */
-    @Column(name = "units",columnDefinition = "varchar(50)")
+    @Column(name = "price",columnDefinition = "varchar(50)")
     private String price;
     /**
      * 车牌号
