@@ -38,7 +38,7 @@ public class ReleaseRecordController {
 
     @RequestMapping("/releaseRecord_list")
     public String releaseRecordListRequest(){
-        return "/releaseRecord/list";
+        return "/releaseRecord/releaseRecord_list";
     }
     @RequestMapping("/releaseRecord/list")
     @ResponseBody
@@ -48,8 +48,9 @@ public class ReleaseRecordController {
         for(int i=0;i<releaseRecordPage.getContent().size();i++){
             Map<String,String> map1=new HashMap<>();
             map1.put("id",String.valueOf(releaseRecordPage.getContent().get(i).getId()));
-            map1.put("materialIssuingUnit",String.valueOf(releaseRecordPage.getContent().get(i).getMaterialIssuingUnit()));
-            map1.put("outboundCategory",releaseRecordPage.getContent().get(i).getOrginalNumber());
+            map1.put("materialIssuingUnit",releaseRecordPage.getContent().get(i).getMaterialIssuingUnit());
+            map1.put("materialReceiveUnit",releaseRecordPage.getContent().get(i).getMaterialReceiveUnit());
+            map1.put("outboundCategory",releaseRecordPage.getContent().get(i).getOutboundCategory());
             map1.put("accessoriesId",releaseRecordPage.getContent().get(i).getAccessoriesId());
             map1.put("specification",releaseRecordPage.getContent().get(i).getSpecification());
             map1.put("units",releaseRecordPage.getContent().get(i).getUnits());
@@ -66,7 +67,7 @@ public class ReleaseRecordController {
         JSONObject object = new JSONObject();
         object.put("code", 0);
         object.put("msg", "");
-        object.put("count",releaseRecordPage.getNumber());
+        object.put("count",releaseRecordPage.getTotalElements());
         object.put("data", listMap);
         return  object.toString();
     }
@@ -74,22 +75,22 @@ public class ReleaseRecordController {
     public String maintenanceRecordInsert(){
         return "releaseRecord/releaseRecord_insert";
     }
-    @RequestMapping(value = "/insert",method = RequestMethod.POST)
+    @RequestMapping(value = "/releaseRecord/insert",method = RequestMethod.POST)
     @ResponseBody
     @Transactional
-    public JSONResult equmentManagementInsert(@RequestParam("materialIssuingUnit") String materialIssuingUnit,
-                                              @RequestParam("materialReceiveUnit") String materialReceiveUnit,
-                                              @RequestParam("outboundCategory") String outboundCategory,
-                                              @RequestParam("accessoriesId") String accessoriesId,
-                                              @RequestParam("specification") String specification,
-                                              @RequestParam("units") String units,
-                                              @RequestParam("orginalNumber") String orginalNumber,
-                                              @RequestParam("deliveryNumber") int deliveryNumber,
-                                              @RequestParam("price") String price,
-                                              @RequestParam("licensePlateNumber") String licensePlateNumber,
-                                              @RequestParam("deliveryDate") String deliveryDate,
-                                              @RequestParam("sumMoney") String sumMoney,
-                                              @RequestParam("reponsiableName") String reponsiableName) {
+    public JSONResult equmentManagementInsert(@RequestParam(value = "materialIssuingUnit",required = false) String materialIssuingUnit,
+                                              @RequestParam(value = "materialReceiveUnit",required = false) String materialReceiveUnit,
+                                              @RequestParam(value = "outboundCategory",required = false) String outboundCategory,
+                                              @RequestParam(value = "accessoriesId",required = false) String accessoriesId,
+                                              @RequestParam(value = "specification",required = false) String specification,
+                                              @RequestParam(value = "units",required = false) String units,
+                                              @RequestParam(value = "orginalNumber",required = false) String orginalNumber,
+                                              @RequestParam(value = "deliveryNumber",required = false) int deliveryNumber,
+                                              @RequestParam(value = "price",required = false) String price,
+                                              @RequestParam(value = "licensePlateNumber",required = false) String licensePlateNumber,
+                                              @RequestParam(value = "deliveryDate",required = false) String deliveryDate,
+                                              @RequestParam(value = "reponsiableName",required = false) String reponsiableName) {
+        String sumMoney = String.valueOf(Double.parseDouble(price)*deliveryNumber);
         ReleaseRecord maintenanceRecord = new ReleaseRecord(materialIssuingUnit, materialReceiveUnit, outboundCategory, accessoriesId, specification, units, orginalNumber,  deliveryNumber, price, licensePlateNumber, deliveryDate, sumMoney, reponsiableName, UUID.randomUUID().toString());
         releaseRecordRepository.save(maintenanceRecord);
         return JSONResult.build(200, "新增成功", "");
@@ -112,6 +113,7 @@ public class ReleaseRecordController {
             if(file.exists()){
                 file.delete();
             }
+
             WritableWorkbook book= Workbook.createWorkbook(new File(path+"/maintenanceRecord.xls"));
             //设置表名
             WritableSheet sheet=book.createSheet("发放记录",0);
@@ -200,5 +202,11 @@ public class ReleaseRecordController {
         json.put("data", data);
         return json.toString();
     }
-
+    @RequestMapping(value = "/releaseRecord/delete",method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional
+    public JSONResult equmentManagementDelete(@RequestParam("id") Long id) {
+        releaseRecordRepository.delete(id);
+        return JSONResult.build(200, "删除成功", "");
+    }
 }

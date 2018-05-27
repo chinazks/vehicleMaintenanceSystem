@@ -94,9 +94,21 @@
             <tr><td colspan="3" height="10"></td></tr>
             <tr>
                 <td>
+                    <label class="layui-form-label">数量</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="accessoriesNumber" value="${maintenanceRecord.accessoriesNumber}" maxlength="9" autocomplete="off" class="layui-input" lay-verify="require|number">
+                    </div>
+                </td>
+                <td>
                     <label class="layui-form-label">维修时间</label>
                     <div class="layui-input-inline">
                         <input type="text" name="maintenanceTime"  value="${maintenanceRecord.maintenanceTime}" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">使用单位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="materialReceiveUnit"  value="${maintenanceRecord.materialReceiveUnit}" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require">
                     </div>
                 </td>
             </tr>
@@ -115,7 +127,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="" lay-filter="unitsubmit">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <a href="JavaScript:history.back(-1)" class="layui-btn layui-btn-normal">返回</a>
+            <a href="/maintenanceRecord_list" class="layui-btn layui-btn-normal">返回</a>
         </div>
     </div>
 </form>

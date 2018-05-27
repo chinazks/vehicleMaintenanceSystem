@@ -43,7 +43,7 @@ public class MaintenanceRecordController {
  private UnitRepository unitRepository;
  @Autowired
  private ReleaseRecordRepository releaseRecordRepository;
- //获取所有unitinformation数据
+
  @RequestMapping("/list")
  @ResponseBody
  public String equmentManagementList(@RequestParam("page") int pages,@RequestParam("limit") int limit){
@@ -78,7 +78,7 @@ public class MaintenanceRecordController {
   JSONObject object = new JSONObject();
   object.put("code", 0);
   object.put("msg", "");
-  object.put("count",maintenanceRecordPage.getNumber());
+  object.put("count",maintenanceRecordPage.getTotalElements());
   object.put("data", listMap);
   return  object.toString();
  }
@@ -86,22 +86,24 @@ public class MaintenanceRecordController {
  @RequestMapping(value = "/insert",method = RequestMethod.POST)
  @ResponseBody
  @Transactional
- public JSONResult equmentManagementInsert(@RequestParam("unitId") String unitId,
-                                       @RequestParam("licensePlateNumber") String licensePlateNumber,
-                                       @RequestParam("driverName") String driverName,
-                                       @RequestParam("storeRoom") String storeRoom,
-                                       @RequestParam("vehicleType") String vehicleType,
-                                       @RequestParam("accessoriesId") String accessoriesId,
-                                       @RequestParam("useOfAccessories") String useOfAccessories,
-                                       @RequestParam("lackOfAccessories") String lackOfAccessories,
-                                       @RequestParam("maintenancePrice") String maintenancePrice,
-                                       @RequestParam("maintenanceTime") String maintenanceTime,
-                                       @RequestParam("remark") String remark,
-                                           @RequestParam("accessoriesNumber") int accessoriesNumber,
-                                           @RequestParam("materialReceiveUnit") String materialReceiveUnit) {
+ public JSONResult equmentManagementInsert(@RequestParam(value = "unitId",required = false) String unitId,
+                                       @RequestParam(value = "licensePlateNumber",required = false) String licensePlateNumber,
+                                       @RequestParam(value = "driverName",required = false) String driverName,
+                                       @RequestParam(value = "storeRoom") String storeRoom,
+                                       @RequestParam(value = "vehicleType") String vehicleType,
+                                       @RequestParam(value = "accessoriesId") String accessoriesId,
+                                       @RequestParam(value = "useOfAccessories") String useOfAccessories,
+                                       @RequestParam(value = "lackOfAccessories") String lackOfAccessories,
+                                       @RequestParam(value = "maintenancePrice") String maintenancePrice,
+                                       @RequestParam(value = "maintenanceTime") String maintenanceTime,
+                                       @RequestParam(value = "remark") String remark,
+                                           @RequestParam(value = "accessoriesNumber") int accessoriesNumber,
+                                           @RequestParam(value = "materialReceiveUnit") String materialReceiveUnit) {
       MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,materialReceiveUnit,vehicleType,accessoriesId,accessoriesNumber,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
+
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
        //增加发放记录
+      String uuid = UUID.randomUUID().toString();
       ReleaseRecord releaseRecord = new ReleaseRecord();
       releaseRecord.setMaterialIssuingUnit(storeRoom);
       releaseRecord.setMaterialReceiveUnit(materialReceiveUnit);//收料单位
@@ -116,8 +118,9 @@ public class MaintenanceRecordController {
       releaseRecord.setDeliveryDate(sdf.format(new Date()));//发放日期
       releaseRecord.setSumMoney(String.valueOf(Double.parseDouble(maintenancePrice)*accessoriesNumber));//总金额
       releaseRecord.setReponsiableName(null);
-      releaseRecord.setUuid(UUID.randomUUID().toString());
+      releaseRecord.setUuid(uuid);
       try {
+         maintenanceRecord.setUuid(uuid);
          maintenanceRecordRepository.save(maintenanceRecord);
          releaseRecordRepository.save(releaseRecord);
       }catch (Exception e){
@@ -139,20 +142,20 @@ public class MaintenanceRecordController {
 
  @RequestMapping(value = "/update",method = RequestMethod.POST)
  @ResponseBody
- public JSONResult equmentManagementUpdate(@RequestParam("id") Long id,
-                                       @RequestParam("unitId") String unitId,
-                                       @RequestParam("licensePlateNumber") String licensePlateNumber,
-                                       @RequestParam("driverName") String driverName,
-                                       @RequestParam("storeRoom") String storeRoom,
-                                       @RequestParam("vehicleType") String vehicleType,
-                                       @RequestParam("accessoriesId") String accessoriesId,
-                                       @RequestParam("useOfAccessories") String useOfAccessories,
-                                       @RequestParam("lackOfAccessories") String lackOfAccessories,
-                                       @RequestParam("maintenancePrice") String maintenancePrice,
-                                           @RequestParam("accessoriesNumber") int accessoriesNumber,
-                                       @RequestParam("maintenanceTime") String maintenanceTime,
-                                       @RequestParam("remark") String remark,
-                                           @RequestParam("materialReceiveUnit") String materialReceiveUnit) {
+ public JSONResult equmentManagementUpdate(@RequestParam(value = "id",required = false) Long id,
+                                       @RequestParam(value = "unitId",required = false) String unitId,
+                                       @RequestParam(value = "licensePlateNumber",required = false) String licensePlateNumber,
+                                       @RequestParam(value = "driverName",required = false) String driverName,
+                                       @RequestParam(value = "storeRoom",required = false) String storeRoom,
+                                       @RequestParam(value = "vehicleType",required = false) String vehicleType,
+                                       @RequestParam(value = "accessoriesId",required = false) String accessoriesId,
+                                       @RequestParam(value = "useOfAccessories",required = false) String useOfAccessories,
+                                       @RequestParam(value = "lackOfAccessories",required = false) String lackOfAccessories,
+                                       @RequestParam(value = "maintenancePrice",required = false) String maintenancePrice,
+                                           @RequestParam(value = "accessoriesNumber",required = false) int accessoriesNumber,
+                                       @RequestParam(value = "maintenanceTime",required = false) String maintenanceTime,
+                                       @RequestParam(value = "remark",required = false) String remark,
+                                           @RequestParam(value = "materialReceiveUnit",required = false) String materialReceiveUnit) {
   MaintenanceRecord maintenanceRecord = new MaintenanceRecord(unitId,licensePlateNumber,driverName,storeRoom,materialReceiveUnit,vehicleType,accessoriesId,accessoriesNumber,useOfAccessories,lackOfAccessories,maintenancePrice,maintenanceTime,remark);
   maintenanceRecord.setId(id);
   maintenanceRecordRepository.save(maintenanceRecord);
@@ -167,7 +170,7 @@ public class MaintenanceRecordController {
     maintenanceRecordRepository.delete(id);
     ReleaseRecord releaseRecord = releaseRecordRepository.findAllByUuid(maintenanceRecord.getUuid());
     if(releaseRecord != null){
-     releaseRecordRepository.deleteAllByUuid(maintenanceRecord.getUuid());
+     releaseRecordRepository.deleteAllByUuid(releaseRecord.getUuid());
     }
   return JSONResult.build(200, "删除成功", "");
  }
@@ -200,11 +203,12 @@ public class MaintenanceRecordController {
    sheet.addCell(new Label(4,0,"使用单位"));
    sheet.addCell(new Label(5,0,"车辆类型"));
    sheet.addCell(new Label(6,0,"配件id"));
-   sheet.addCell(new Label(7,0,"配件使用情况"));
-   sheet.addCell(new Label(8,0,"配件缺少情况"));
-   sheet.addCell(new Label(9,0,"维修价格"));
-   sheet.addCell(new Label(10,0,"维修时间"));
-   sheet.addCell(new Label(11,0,"备注"));
+   sheet.addCell(new Label(7,0,"使用数量"));
+   sheet.addCell(new Label(8,0,"配件使用情况"));
+   sheet.addCell(new Label(9,0,"配件缺少情况"));
+   sheet.addCell(new Label(10,0,"维修价格"));
+   sheet.addCell(new Label(11,0,"维修时间"));
+   sheet.addCell(new Label(12,0,"备注"));
    //添加数据
 
    for(int i=0;i<list.size();i++){

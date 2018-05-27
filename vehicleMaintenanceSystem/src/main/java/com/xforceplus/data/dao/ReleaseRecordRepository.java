@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ReleaseRecordRepository  extends JpaRepository<ReleaseRecord,Long>{
-    ReleaseRecord deleteAllByUuid(String uuid);
+    void deleteAllByUuid(String uuid);
     ReleaseRecord findAllByUuid(String uuid);
 }

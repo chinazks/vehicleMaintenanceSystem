@@ -33,7 +33,7 @@
                 <td>
                     <label class="layui-form-label">出库类别</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="outboundCategory" autocomplete="off" maxlength="20"  class="layui-input" lay-verify="require|lengthLess20">
+                        <input type="text" name="outboundCategory" autocomplete="off" maxlength="20"  class="layui-input" lay-verify="">
                     </div>
                 </td>
             </tr>
@@ -69,13 +69,13 @@
                 <td>
                     <label class="layui-form-label">出库数</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="deliveryNumber"  autocomplete="off" maxlength="10" class="layui-input" lay-verify="require" >
+                        <input type="number" name="deliveryNumber" autocomplete="off" maxlength="10" class="layui-input" lay-verify="require" >
                     </div>
                 </td>
                 <td>
                     <label class="layui-form-label">供应单价</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="price" name="price" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
+                        <input type="text" id="price" name="price" autocomplete="off" maxlength="9" class="layui-input" lay-verify="require|price">
                     </div>
                 </td>
             </tr>
@@ -84,28 +84,34 @@
                 <td>
                     <label class="layui-form-label">车牌号</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="licensePlateNumber" maxlength="10" autocomplete="off" class="layui-input" lay-verify="require">
+                        <input type="text" name="licensePlateNumber" maxlength="10" autocomplete="off" class="layui-input" lay-verify="require">
                     </div>
                 </td>
-                <td>
+                <td colspan="2">
                     <label class="layui-form-label">出库日期</label>
                     <div class="layui-input-inline">
                         <input type="text" name="deliveryDate" id="date" autocomplete="off" class="layui-input" lay-verify="require" readonly>
                     </div>
                 </td>
-                <td>
+                <#--<td>
                     <label class="layui-form-label">总金额</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="sumMoney" name="sumMoney" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price" readonly>
+                        <input type="text" id="sumMoney" name="sumMoney" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
                     </div>
-                </td>
+                </td>-->
             </tr>
             <tr><td colspan="3" height="10"></td></tr>
             <tr>
-                <td colspan="3">
+                <td>
                     <label class="layui-form-label">经办人</label>
-                    <div class="layui-textarea-inline">
-                        <input type="text" name="reponsiableName" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require">
+                    <div class="layui-input-inline">
+                        <input type="text" name="reponsiableName" maxlength="10" autocomplete="off" class="layui-input" lay-verify="">
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">车牌号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="licensePlateNumber" maxlength="10" autocomplete="off" class="layui-input" lay-verify="require">
                     </div>
                 </td>
             </tr>
@@ -115,7 +121,7 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="" lay-filter="unitsubmit">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <a href="maintenanceRecord_list" class="layui-btn layui-btn-normal">返回</a>
+            <a href="releaseRecord_list" class="layui-btn layui-btn-normal">返回</a>
         </div>
     </div>
 </form>
@@ -123,13 +129,6 @@
 <script src="/plugins/layui/layui.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    document.getElementById("price").value().change(
-        function () {
-            var price = parseFloat(document.getElementById("price").value());
-            var deliveryNumber = parseFloat(document.getElementById("deliveryNumber").value());
-            if()
-        }
-    );
     layui.use(['form', 'layedit', 'laydate'], function() {
         var form = layui.form,
                 layer = layui.layer,
@@ -153,7 +152,7 @@
             number:[
                 /^[0-9]{0,9}$/
                 ,'数量填写有误'
-            ]
+            ],
             price:[
                 /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/
                 ,'价格填写有误'
@@ -164,7 +163,7 @@
         var $ = layui.$;
         form.on('submit(unitsubmit)', function(datas) {
             $.ajax({
-                url: '/maintenanceRecord/insert',
+                url: '/releaseRecord/insert',
                 type: "POST",
                 data:datas.field,
                 dataType: "json",
@@ -174,7 +173,7 @@
                     }else{
                         layer.msg("新增失败", {icon: 5});
                     }
-                    location.href="maintenanceRecord_list";
+                    location.href="releaseRecord_list";
                 }
             });
             return false;

@@ -56,11 +56,12 @@
             elem: '#unit'
             ,url: '/maintenanceRecord/list'
             ,cols: [[
-                {field:'unitId', width:60, title:'单位id'}
+                {field:'unitId', width:120, title:'单位id'}
                 ,{field:'unitName', width:120, title:'单位名称'}
                 ,{field:'licensePlateNumber', width:120, title:'车牌号'}
                 ,{field:'driverName', width:120, title:'司机名称'}
-                ,{field:'storeRoom', width:120, title:'库房号',sort: true}
+                ,{field:'storeRoom', width:120, title:'库房号'}
+                ,{field:'materialReceiveUnit', width:120, title:'使用单位'}
                 ,{field:'vehicleType', width:120, title:'车辆类型'}
                 ,{field:'accessoriesId', width:120, title:'配件id'}
                 ,{field:'useOfAccessories', width:120, title:'配件使用情况'}
@@ -91,7 +92,7 @@
                 console.log(data);
                 layer.open({
                     title: '详细信息'
-                    ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>司机名称:'+data.driverName+'</div><div>库房号：'+data.storeRoom+'</div><div>车辆类型:'+data.vehicleType+'</div>'
+                    ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>司机名称:'+data.driverName+'</div><div>库房号：'+data.storeRoom+'</div><div>使用单位：'+data.materialReceiveUnit+'</div><div>车辆类型:'+data.vehicleType+'</div>'
                 + '<div>配件id:'+data.accessoriesId+'</div><div>配件使用情况:'+data.useOfAccessories+'</div><div>配件缺少情况:'+data.lackOfAccessories+'</div><div>维修价格:'+data.maintenancePrice+'</div><div>维修时间：'+data.maintenanceTime+'</div><div>备注:'+data.remark+'</div>'
             });
             } else if(obj.event === 'del'){
@@ -115,7 +116,6 @@
                 });
             } else if(obj.event === 'edit'){
                 location.href="/maintenanceRecord/update/"+data.id;
-
             }
         });
 

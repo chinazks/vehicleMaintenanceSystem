@@ -22,6 +22,7 @@
                     <label class="layui-form-label">单位ID</label>
                     <div class="layui-input-inline">
                         <select name="unitId" lay-verify="required">
+                            <option value="">请选择</option>
                         <#list unitList as item>
                             <option value="${item.unitId}">${item.unitName}</option>
                         </#list>
@@ -83,7 +84,7 @@
                 <td>
                     <label class="layui-form-label">维修价格</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="accessoriesNumber" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
+                        <input type="text" name="maintenancePrice" autocomplete="off" maxlength="100" class="layui-input" lay-verify="require|price">
                     </div>
                 </td>
             </tr>
@@ -92,7 +93,7 @@
                 <td>
                     <label class="layui-form-label">数量</label>
                     <div class="layui-input-inline">
-                        <input type="number" name="maintenanceTime" maxlength="9" autocomplete="off" class="layui-input" lay-verify="require|number">
+                        <input type="number" name="accessoriesNumber" maxlength="9" autocomplete="off" class="layui-input" lay-verify="require|number">
                     </div>
                 </td>
                 <td>
@@ -155,7 +156,7 @@
             number:[
                 /^[0-9]{0,9}$/
                     ,'数量填写有误'
-            ]
+            ],
             price:[
                 /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/
                     ,'价格填写有误'

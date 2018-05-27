@@ -16,15 +16,15 @@
 <body>
 <div style="width:500px;height:30px;padding-left:20px;"></div>
 <a href="/releaseRecord_insert" class="layui-btn">新增</a>
-<#--<button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
-<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>-->
-<#--<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>-->
+<button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
+<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
+<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
 <table class="layui-hide" id="unit" lay-filter="unitdata"></table>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary  layui-btn-sm" lay-event="detail">查看</a>
-    <#--<a href="#" class="layui-btn  layui-btn-sm" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger  layui-btn-sm" lay-event="del">删除</a>-->
+    <#--<a href="#" class="layui-btn  layui-btn-sm" lay-event="edit">编辑</a>-->
+    <a class="layui-btn layui-btn-danger  layui-btn-sm" lay-event="del">删除</a>
 </script>
 
 <script src="/plugins/layui/layui.js"></script>
@@ -56,7 +56,7 @@
             elem: '#unit'
             ,url: '/releaseRecord/list'
             ,cols: [[
-                {field:'materialIssuingUnit', width:60, title:'发料单位'}
+                {field:'materialIssuingUnit', width:120, title:'发料单位'}
                 ,{field:'materialReceiveUnit', width:120, title:'收料单位'}
                 ,{field:'outboundCategory', width:120, title:'出库类别'}
                 ,{field:'accessoriesId', width:120, title:'器材编码'}
@@ -67,7 +67,7 @@
                 ,{field:'price', width:120, title:'供应单价'}
                 ,{field:'licensePlateNumber', width:120, title:'车牌号'}
                 ,{field:'deliveryDate', width:120, title:'出库日期',sort: true}
-                {field:'sumMoney', width:120, title:'总金额'}
+                ,{field:'sumMoney', width:120, title:'总金额'}
                 ,{field:'reponsiableName', width:120, title:'经办人'}
                 ,{field:'right', title: '操作', width:200, height:80, toolbar:"#barDemo"}
             ]]
@@ -110,6 +110,7 @@
                                 obj.del();
                                 layer.close(index);
                                 layer.msg("删除成功", {icon: 6});
+                                location.reload();
                             }else{
                                 layer.msg("删除失败", {icon: 5});
                             }
