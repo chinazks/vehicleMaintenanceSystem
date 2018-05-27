@@ -18,7 +18,7 @@
 <a href="/maintenanceRecord_insert" class="layui-btn">新增</a>
 <button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
 <a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
-<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
+<#--<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>-->
 <table class="layui-hide" id="unit" lay-filter="unitdata"></table>
 
 <script type="text/html" id="barDemo">
@@ -43,6 +43,7 @@
             ,done: function(res){
                 if(res.code == 0){
                     layer.msg("文件上传成功", {icon: 6});
+                    location.reload();
                 }
             }
             ,error: function(){
@@ -97,12 +98,12 @@
                 layer.confirm('确定删除“'+data.unitName+'”的数据吗', function(index){
                     console.log(data);
                     $.ajax({
-                        url: '/maintenanceRecord/deleteunitinformation',
+                        url: '/maintenanceRecord/delete',
                         type: "POST",
                         data:{"id":data.id},
                         dataType: "json",
                         success: function(data){
-                            if(data.code==1){
+                            if(data.code==200){
                                 obj.del();
                                 layer.close(index);
                                 layer.msg("删除成功", {icon: 6});
