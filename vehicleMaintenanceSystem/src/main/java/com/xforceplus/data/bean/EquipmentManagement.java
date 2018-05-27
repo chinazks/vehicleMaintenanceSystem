@@ -36,10 +36,10 @@ public class EquipmentManagement implements Serializable {
     /**
      * 配件id
      */
-    @Column(name = "accessories_id",length = 20)
+    @Column(name = "accessories_id",columnDefinition = "varchar(50)",length = 50)
     private String accessoriesId;
     /**
-     * 配件id
+     * 配件名字
      */
     @Column(name = "accessories_Name",length = 50)
     private String accessoriesName;

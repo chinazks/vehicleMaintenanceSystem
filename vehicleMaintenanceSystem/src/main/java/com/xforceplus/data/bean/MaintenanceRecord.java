@@ -42,9 +42,9 @@ public class MaintenanceRecord implements Serializable {
     private String vehicleType;
 
     /**
-     * 配件id
+     * 配件id 就是器材编码
      */
-    @Column(name = "accessories_id",length = 10)
+    @Column(name = "accessories_id",columnDefinition = "varchar(50)",length = 50)
     private String accessoriesId;
     /**
      * 配件使用情况
