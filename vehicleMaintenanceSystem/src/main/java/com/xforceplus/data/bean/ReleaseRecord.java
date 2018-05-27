@@ -17,7 +17,7 @@ public class ReleaseRecord implements Serializable {
     private Long id;
 
     /**
-     * 发料单位
+     * 发料单位 默认库房号
      */
     @Column(name = "material_issuing_unit",columnDefinition = "varchar(50)")
     private String materialIssuingUnit;
@@ -39,38 +39,47 @@ public class ReleaseRecord implements Serializable {
     /**
      * 规格
      */
+    @Column(name = "specification",columnDefinition = "varchar(10)")
     private String specification;
     /**
      * 单位
      */
+    @Column(name = "units",columnDefinition = "varchar(10)")
     private String units;
     /**
      * 原厂编号
      */
+    @Column(name = "units",columnDefinition = "varchar(50)")
     private String orginalNumber;
     /**
      * 出库数
      */
+    @Column(name = "units",columnDefinition = "int")
     private int deliveryNumber;
     /**
      * 供应单价
      */
+    @Column(name = "units",columnDefinition = "varchar(50)")
     private String price;
     /**
      * 车牌号
      */
+    @Column(name = "license_plate_number",length = 10)
     private String licensePlateNumber;
     /**
      * 出库日期
      */
+    @Column(name = "delivery_date",columnDefinition = "varchar(10)",length = 10)
     private String deliveryDate;
     /**
      * 总金额
      */
+    @Column(name = "sum_money",columnDefinition = "varchar(50)")
     private String sumMoney;
     /**
      * 经办人
      */
+    @Column(name = "reponsiable_name",columnDefinition = "varchar(10)",length = 10)
     private String reponsiableName;
 
     public Long getId() {
