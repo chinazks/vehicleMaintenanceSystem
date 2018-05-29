@@ -1,6 +1,9 @@
 package com.xforceplus.data.dao;
 
 import com.xforceplus.data.bean.EquipmentManagement;
+
+import java.util.ArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EquipmentManagementRepository extends JpaRepository<EquipmentManagement,Long> {
 	EquipmentManagement findAllByAccessoriesIdAndStoreRoom(String accessoriesId,String storeRoom);
+	
+	ArrayList<EquipmentManagement> findAllByLicensePlateNumberAndAccessoriesIdAndAccessoriesNameLike(String licensePlateNumber,String accessorlesId,String accessoriesName);
 }
