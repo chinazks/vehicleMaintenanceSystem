@@ -19,7 +19,7 @@
 <button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
 <a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
 <a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
-<table class="layui-hide" id="unit" lay-filter="unitdata"></table>
+<table class="layui-hide" id="unit" lay-filter="equipdata"></table>
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary  layui-btn-sm" lay-event="detail">查看</a>
@@ -84,23 +84,23 @@
     };
 
     //监听工具条
-    table.on('tool(unitdata)', function(obj){
+    table.on('tool(equipdata)', function(obj){
         var data = obj.data;
         if(obj.event === 'detail'){
             layer.open({
   				title: '详细信息'
- 				 ,content: '<div>单位id:'+data.unitId+'</div><div>单位名称:'+data.unitName+'</div><div>装备名称:'+data.equipmentName+'</div><div>配发时间:'+data.dispensingTime+'</div><div>数量：'+data.stockQuantity+'</div><div>技术状况:'+data.technicalStatus+'</div>'
+ 				 ,content: '<div>库房号:'+data.storeRoom+'</div><div>车牌号:'+data.licensePlateNumber+'</div><div>车辆类型:'+data.vehicleType+'</div><div>配件id:'+data.accessoriesId+'</div><div>配件名：'+data.accessoriesName+'</div><div>规格:'+data.specifications+'</div><div>原厂编号:'+data.originalFactoryNumber+'</div><div>单位:'+data.unit+'</div><div>入库总价:'+data.warehouseUnitPrice+'</div><div>库房总库存:'+data.stock+'</div><div>货位号:'+data.goodsNum+'</div><div>到货日期:'+data.deliveryDate+'</div>'
 				});   
         } else if(obj.event === 'del'){
-            layer.confirm('确定删除“'+data.unitName+'”的数据吗', function(index){
+            layer.confirm('确定删除“'+data.accessoriesName+'”的数据吗', function(index){
                 console.log(data);
                 $.ajax({
-                    url: '/unitInformation/deleteunitinformation',
+                    url: '/equipmentManagement/delete',
                     type: "POST",
                     data:{"id":data.id},
                     dataType: "json",
                     success: function(data){
-                        if(data.code==1){
+                        if(data.code==200){
                             obj.del();
                             layer.close(index);
                             layer.msg("删除成功", {icon: 6});
@@ -111,23 +111,7 @@
                 });
             });
         } else if(obj.event === 'edit'){
-        
-      		//弹出窗编辑，已注释
-         /* layer.open({
-			 type: 1,
-			 title:'编辑',
-			 skin: 'layui-layer-rim', //加上边框
-			 area: ['500px', '500'], //宽高
-			 content: '<form class="layui-form" action=""><table class="layui-table">'+
-			 '<tr><td>单位名称</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-			 '<tr><td>装备名称</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-			 '<tr><td>配发时间</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-			 '<tr><td>数量</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
-			 '<tr><td>技术状况</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr></table></form>'
-			});*/
-		//location.href="addunitinformation";
-		
-			location.href="/updateunitinformation/"+data.id;
+			location.href="/equipmentManagement/"+data.id;
            
         }
     });
@@ -138,7 +122,7 @@
   			,shade: 0.1
 		});
 		$.ajax({
-        	url: '/unitInformation/putout',
+        	url: '/equipmentManagement/putout',
        	 	type: "POST",
         	dataType: "json",
         	success: function(data){
