@@ -7,15 +7,16 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="./plugins/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
 </head>
 
 <body>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>新增器材信息</legend>
+        <legend>编辑器材信息</legend>
     </fieldset>
-	<form class="layui-form layui-form-pane" action="">
+	<form class="layui-form layui-form-pane" lay-filter="example" action="">
 	<div class="layui-form-item">
+	<input type="text" name="id" autocomplete="off" class="layui-input" style="display:none">
 	<table>
 		<tr>
 			<td>
@@ -105,6 +106,7 @@
                 </div>
 			</td>
 		</tr>
+		<tr><td colspan="3" height="10"></td></tr>
 		<tr>
 			<td colspan="3">
 				<label class="layui-form-label">到货日期</label>
@@ -120,12 +122,12 @@
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="" lay-filter="equipmentsubmit">提交编辑</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                <a href="managecar" class="layui-btn layui-btn-normal">返回</a>
+                <a href="/equipmenetMmanagement_list" class="layui-btn layui-btn-normal">返回</a>
             </div>
         </div>
     </form>
 
-    <script src="./plugins/layui/layui.js"></script>
+    <script src="../plugins/layui/layui.js"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
     <script>
         layui.use(['form', 'layedit', 'laydate'], function() {
@@ -160,14 +162,19 @@
                 async:false,  
                 success: function(datas){
 					form.val('example', {
-					    "unitid": datas.unitId 
-					    ,"id": datas.id
-					    ,"equipmentName": datas.equipmentName
-					    ,"equipmentModel": datas.equipmentModel
-					    ,"licensePlateNumber": datas.licensePlateNumber 
+					    "storeRoom": datas.storeRoom 
+					    ,"materialIssuingUnit": datas.materialIssuingUnit
+					    ,"licensePlateNumber": datas.licensePlateNumber
 					    ,"vehicleType": datas.vehicleType
-					    ,"driverName":datas.driverName
-					    ,"remarke" :datas.remarke
+					    ,"accessoriesId": datas.accessoriesId 
+					    ,"accessoriesName": datas.accessoriesName
+					    ,"specifications":datas.specifications
+					    ,"originalFactoryNumber" :datas.originalFactoryNumber
+					    ,"unit" :datas.unit
+					    ,"warehouseUnitPrice" :datas.warehouseUnitPrice
+					    ,"stock" :datas.stock
+					    ,"goodsNum" :datas.goodsNum
+					    ,"deliveryDate" :datas.deliveryDate
 					  })
                 }
             });
