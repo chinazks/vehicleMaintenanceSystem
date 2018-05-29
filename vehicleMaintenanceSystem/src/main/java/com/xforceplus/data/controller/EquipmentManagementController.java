@@ -1,5 +1,6 @@
 package com.xforceplus.data.controller;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,8 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xforceplus.data.bean.EquipmentManagement;
-import com.xforceplus.data.bean.VehicleManagement;
+import com.xforceplus.data.bean.ReleaseRecord;
 import com.xforceplus.data.dao.EquipmentManagementRepository;
+import com.xforceplus.data.dao.ReleaseRecordRepository;
 import com.xforceplus.data.tools.JSONResult;
 
 import jxl.Sheet;
@@ -39,6 +41,9 @@ public class EquipmentManagementController {
 	
 	@Autowired
 	private EquipmentManagementRepository equipmentManagementRepository;
+	
+	@Autowired
+	private ReleaseRecordRepository releaseRecordRepository;
 	
 	@RequestMapping("/list")
 	@ResponseBody
@@ -173,6 +178,11 @@ public class EquipmentManagementController {
     		@RequestParam(value = "stock", required = false) int stock,
     		@RequestParam(value = "goodsNum", required = false) String goodsNum,
     		@RequestParam(value = "deliveryDate", required = false) String deliveryDate) {
+    	EquipmentManagement oldequipment = equipmentManagementRepository.findOne(id);
+    	if(oldequipment.getStock()-stock>0) {
+    		ReleaseRecord releaseRecord = new ReleaseRecord(storeRoom, materialIssuingUnit, "", accessoriesId, specifications, unit, originalFactoryNumber, oldequipment.getStock()-stock, warehouseUnitPrice, licensePlateNumber, deliveryDate, (oldequipment.getStock()-stock)*Double.parseDouble(warehouseUnitPrice)+"", "");
+    		releaseRecordRepository.save(releaseRecord);
+    	}
     	EquipmentManagement equipmentManagement = new EquipmentManagement(storeRoom, materialIssuingUnit, licensePlateNumber, vehicleType, accessoriesId, accessoriesName, specifications, originalFactoryNumber, unit, warehouseUnitPrice, stock, goodsNum, deliveryDate);
 		equipmentManagement.setId(id);	
 		equipmentManagementRepository.save(equipmentManagement);
@@ -184,6 +194,8 @@ public class EquipmentManagementController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
     public JSONResult delete(@RequestParam long id ) {
+    	EquipmentManagement oldequipment = equipmentManagementRepository.findOne(id);
+    	releaseRecordRepository.save(new ReleaseRecord(oldequipment.getStoreRoom(),oldequipment.getMaterialIssuingUnit(), "", oldequipment.getAccessoriesId(), oldequipment.getSpecifications(), oldequipment.getUnit(), oldequipment.getOriginalFactoryNumber(), oldequipment.getStock(), oldequipment.getWarehouseUnitPrice(), oldequipment.getLicensePlateNumber(), oldequipment.getDeliveryDate(), oldequipment.getStock()*Double.parseDouble(oldequipment.getWarehouseUnitPrice())+"", oldequipment.getDeliveryDate()));
     	equipmentManagementRepository.delete(id);
 		return JSONResult.build(200, "删除成功", "");	
     }
