@@ -15,10 +15,19 @@
 
 <body>
 <div style="width:500px;height:30px;padding-left:20px;"></div>
+
+<div class="demoTable">
 <a href="addunitinformation" class="layui-btn">新增</a>
 <button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
-<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
+  搜索ID：
+  <div class="layui-inline">
+    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+  </div>
+  <button class="layui-btn" data-type="reload">搜索</button>
+  <a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
 <a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
+</div>
+
 <table class="layui-hide" id="unit" lay-filter="unitdata"></table>
 
 <script type="text/html" id="barDemo">
@@ -67,15 +76,24 @@
         ,page: true
     });
         var $ = layui.$, active = {
-        reload: function(){
-            var demoReload = $('#demoReload');
-            table.reload('testReload', {
-                where: {
-                    keyword: demoReload.val()
-                }
-            });
-        }
-    };
+		    reload: function(){
+		      var demoReload = $('#demoReload'); 
+		      //执行重载
+		      table.reload('testReload', {
+		        page: {
+		          curr: 1 //重新从第 1 页开始
+		        }
+		        ,where: {
+		            id: demoReload.val()
+		        }
+		      });
+		    }
+		  };
+  
+	  $('.demoTable .layui-btn').on('click', function(){
+	    var type = $(this).data('type');
+	    active[type] ? active[type].call(this) : '';
+	  });
 
     //监听工具条
     table.on('tool(unitdata)', function(obj){
@@ -120,12 +138,9 @@
 			 '<tr><td>数量</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr>'+
 			 '<tr><td>技术状况</td><td><input type="text" name="unitId" lay-verify="required" class="layui-input"></td><tr></table></form>'
 			});*/
-		//location.href="addunitinformation";
-		
 			location.href="/updateunitinformation/"+data.id;
-           
         }
-    });
+    });  
 
 	$('#excelurl').on('click', function(){
 		layer.msg('正在生成excel', {
