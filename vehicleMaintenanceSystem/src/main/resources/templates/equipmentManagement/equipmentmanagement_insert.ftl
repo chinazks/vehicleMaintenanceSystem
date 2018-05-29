@@ -105,6 +105,7 @@
                 </div>
 			</td>
 		</tr>
+		<tr><td colspan="3" height="10"></td></tr>
 		<tr>
 			<td colspan="3">
 				<label class="layui-form-label">到货日期</label>
