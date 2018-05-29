@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +53,8 @@ public class UnitInformationController {
     public String equmentManagementList(Map<String,Object> map, HttpServletRequest request){
     	int pages = Integer.parseInt(request.getParameter("page"));
     	int limit = Integer.parseInt(request.getParameter("limit"));
+    	String id = request.getParameter("id");
+    	System.out.println(pages+"page"+limit+"limit"+id+"id");
         Page<UnitInformation> unitInformationPage=unitInformationRepository.findAll(new PageRequest(pages-1,limit));
         List<Map<String,String>> listMap=new ArrayList<>();//传到前端
        for(int i=0;i<unitInformationPage.getContent().size();i++){
@@ -222,5 +225,4 @@ public class UnitInformationController {
 		json.put("data", data);
 		return json.toString();
     }
-    
 }
