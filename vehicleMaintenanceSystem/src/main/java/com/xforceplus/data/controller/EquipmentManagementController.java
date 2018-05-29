@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +18,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.alibaba.fastjson.JSONObject;
 import com.xforceplus.data.bean.EquipmentManagement;
+import com.xforceplus.data.bean.VehicleManagement;
 import com.xforceplus.data.dao.EquipmentManagementRepository;
 import com.xforceplus.data.tools.JSONResult;
+
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 
 @Controller
@@ -139,5 +147,102 @@ public class EquipmentManagementController {
 		return json.toString();
     }   
 
+    //编辑器材信息
+    @RequestMapping("/updateinfo")
+    @ResponseBody
+    public String update(@RequestParam long id) {
+    	EquipmentManagement equipmentManagement = equipmentManagementRepository.findOne(id);
+    	JSONObject jsonObject = (JSONObject) JSONObject.toJSON(equipmentManagement);
+		return jsonObject.toString();
+    }
+    //编辑提交
+    @RequestMapping(value = "update", method= RequestMethod.POST)
+    @ResponseBody
+    public JSONResult update(Map<String, Object> map,
+    		@RequestParam(value = "id", required = false) long id,
+    		@RequestParam(value = "storeRoom", required = false) String storeRoom,
+    		@RequestParam(value = "materialIssuingUnit", required = false) String materialIssuingUnit,
+    		@RequestParam(value = "licensePlateNumber", required = false) String licensePlateNumber,
+    		@RequestParam(value = "vehicleType", required = false) String vehicleType,
+    		@RequestParam(value = "accessoriesId", required = false) String accessoriesId,
+    		@RequestParam(value = "accessoriesName", required = false) String accessoriesName,
+    		@RequestParam(value = "specifications", required = false) String specifications,
+    		@RequestParam(value = "originalFactoryNumber", required = false) String originalFactoryNumber,
+    		@RequestParam(value = "unit", required = false) String unit,
+    		@RequestParam(value = "warehouseUnitPrice", required = false) String warehouseUnitPrice,
+    		@RequestParam(value = "stock", required = false) int stock,
+    		@RequestParam(value = "goodsNum", required = false) String goodsNum,
+    		@RequestParam(value = "deliveryDate", required = false) String deliveryDate) {
+    	EquipmentManagement equipmentManagement = new EquipmentManagement(storeRoom, materialIssuingUnit, licensePlateNumber, vehicleType, accessoriesId, accessoriesName, specifications, originalFactoryNumber, unit, warehouseUnitPrice, stock, goodsNum, deliveryDate);
+		equipmentManagement.setId(id);	
+		equipmentManagementRepository.save(equipmentManagement);
+    	return JSONResult.build(200, "编辑成功", "");
+    	
+    }
+    
+    //删除器材
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public JSONResult delete(@RequestParam long id ) {
+    	equipmentManagementRepository.delete(id);
+		return JSONResult.build(200, "删除成功", "");	
+    }
+    
+    //导出excel
+  	@RequestMapping("/putout")
+  	@ResponseBody
+  	public JSONResult putout(HttpServletRequest request){
+  		String path = Class.class.getClass().getResource("/").getPath()+"/static/download/";
+		ArrayList<EquipmentManagement> list=new ArrayList<EquipmentManagement>();
+		list = (ArrayList<EquipmentManagement>) equipmentManagementRepository.findAll();
+  		try {
+  			File files=new File(path);
+  			if (!files.exists()) {
+  				files.mkdirs();
+  			}
+  			File file=new File(path+"/equipmentManagement.xls");
+			if(file.exists()){
+				file.delete();
+			}
+  			WritableWorkbook book=Workbook.createWorkbook(new File(path+"/equipmentManagement.xls"));
+  			//设置表名
+  			WritableSheet sheet=book.createSheet("器材管理表",0);
+  			//设置表第一行
+  			sheet.addCell(new Label(0,0,"库房号"));
+  			sheet.addCell(new Label(1,0,"收料单位"));
+  			sheet.addCell(new Label(2,0,"车牌号"));
+  			sheet.addCell(new Label(3,0,"车辆类型"));
+  			sheet.addCell(new Label(4,0,"配件id"));
+  			sheet.addCell(new Label(5,0,"配件名称"));	
+  			sheet.addCell(new Label(6,0,"规格"));	
+  			sheet.addCell(new Label(7,0,"原厂编号"));	
+  			sheet.addCell(new Label(8,0,"单位"));	
+  			sheet.addCell(new Label(9,0,"入库单价"));	
+  			sheet.addCell(new Label(10,0,"库房总库存"));	
+  			sheet.addCell(new Label(11,0,"货位号"));	
+  			sheet.addCell(new Label(12,0,"到货日期"));	
+  			//添加数据
+  			for(int i=0;i<list.size();i++){
+  				sheet.addCell(new Label(0,i+1,list.get(i).getStoreRoom()));
+  				sheet.addCell(new Label(1,i+1,list.get(i).getMaterialIssuingUnit()));
+  				sheet.addCell(new Label(2,i+1,list.get(i).getLicensePlateNumber()));
+  				sheet.addCell(new Label(3,i+1,list.get(i).getVehicleType()));
+  				sheet.addCell(new Label(4,i+1,list.get(i).getAccessoriesId()));
+  				sheet.addCell(new Label(5,i+1,list.get(i).getAccessoriesName()));
+  				sheet.addCell(new Label(6,i+1,list.get(i).getSpecifications()));
+  				sheet.addCell(new Label(7,i+1,list.get(i).getOriginalFactoryNumber()));
+  				sheet.addCell(new Label(8,i+1,list.get(i).getUnit()));
+  				sheet.addCell(new Label(0,i+1,list.get(i).getWarehouseUnitPrice()));
+  				sheet.addCell(new jxl.write.Number(0,i+1,list.get(i).getStock()));
+  				sheet.addCell(new Label(0,i+1,list.get(i).getGoodsNum()));
+  				sheet.addCell(new Label(0,i+1,list.get(i).getDeliveryDate()));
+  			}
+  			book.write();//将所做的操作写入
+  			book.close();//关闭文件
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		}
+  		return JSONResult.build(200, "生成excel", "download/equipmentManagement.xls");
+  	}
 }
 
