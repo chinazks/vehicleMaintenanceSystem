@@ -94,6 +94,12 @@ public class LoginController {
     	return "equipmentManagement/equipmentmanagement_insert";
     }
     
+    @RequestMapping("/equipmentManagement/{id}")
+    public String equipmentManagement(Map<String,Object> map,@PathVariable int id) {
+    	map.put("id", id);
+		return "equipmentManagement/equipmentmanagement_update";
+    }
+    
     @RequestMapping("/homePage")
     public String homePage(Map<String,Object> map,@RequestParam(value = "userName",required = false) String userName, @RequestParam(value = "password",required = false) String password,HttpSession session){
         User user = userLogin.findByUserNameAndPassword(userName,password);
