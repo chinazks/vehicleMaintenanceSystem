@@ -15,10 +15,16 @@
 
 <body>
 <div style="width:500px;height:30px;padding-left:20px;"></div>
-<a href="addvehiclemanagement" class="layui-btn">新增</a>
-<button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
-<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
-<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
+<div class="demoTable">
+	<a href="addvehiclemanagement" class="layui-btn">新增</a>
+	<button type="button" class="layui-btn" id="leadexcel"><i class="layui-icon"></i>上传文件</button>
+	 <div class="layui-inline">
+	 	<input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入车牌号">
+     </div>
+     <button class="layui-btn" data-type="reload">搜索</button>
+	<a href="#" id="excelurl" class="layui-btn">生成excel文件</a>
+	<a href="#" id="downloadexcel" class="layui-btn">下载excel文件</a>
+</div>
 
 <table class="layui-hide" id="managecar" lay-filter="vichetable"></table>
 
@@ -72,15 +78,24 @@
         });
 
         var $ = layui.$, active = {
-        reload: function(){
-            var demoReload = $('#demoReload');
-            table.reload('testReload', {
-                where: {
-                    keyword: demoReload.val()
-                }
-            });
-        }
-    };
+		    reload: function(){
+		      var demoReload = $('#demoReload'); 
+		      //执行重载
+		      table.reload('testReload', {
+		        page: {
+		          curr: 1 //重新从第 1 页开始
+		        }
+		        ,where: {
+		            licensePlateNumber: demoReload.val()
+		        }
+		      });
+		    }
+		  };
+  
+	  $('.demoTable .layui-btn').on('click', function(){
+	    var type = $(this).data('type');
+	    active[type] ? active[type].call(this) : '';
+	  });
 
      table.on('tool(vichetable)', function(obj){
             var data = obj.data;
