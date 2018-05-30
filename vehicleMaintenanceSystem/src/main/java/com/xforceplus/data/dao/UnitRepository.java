@@ -1,6 +1,9 @@
 package com.xforceplus.data.dao;
 
 import com.xforceplus.data.bean.Unit;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnitRepository extends JpaRepository<Unit,Long> {
     Unit findByUnitId(String unitId);
+    
+    Page<Unit> findAll(Pageable pageable);	 
 }
