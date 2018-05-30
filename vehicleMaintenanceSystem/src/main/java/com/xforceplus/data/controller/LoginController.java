@@ -5,6 +5,8 @@ import com.xforceplus.data.bean.Unit;
 import com.xforceplus.data.bean.User;
 import com.xforceplus.data.dao.UnitRepository;
 import com.xforceplus.data.dao.VehicleUserRepository;
+
+import org.apache.poi.util.Units;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +100,16 @@ public class LoginController {
     public String equipmentManagement(Map<String,Object> map,@PathVariable int id) {
     	map.put("id", id);
 		return "equipmentManagement/equipmentmanagement_update";
+    }
+    
+    @RequestMapping("units")
+    public String unit() {
+    	return "unit/unit";
+    }
+    
+    @RequestMapping("user")
+    public String user() {
+    	return "unit/user";
     }
     
     @RequestMapping("/homePage")
