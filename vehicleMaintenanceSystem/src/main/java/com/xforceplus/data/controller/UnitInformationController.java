@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.xforceplus.data.bean.UnitInformation;
 import com.xforceplus.data.dao.UnitInformationRepository;
 import com.xforceplus.data.dao.UnitRepository;
+import com.xforceplus.data.service.UnitInformationService;
+import com.xforceplus.data.service.Impl.UnitInformationServerImpl;
 import com.xforceplus.data.tools.JSONResult;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -42,7 +44,12 @@ public class UnitInformationController {
     @Autowired
     private UnitInformationRepository unitInformationRepository;
     
-
+    @Autowired
+    private UnitInformationService unitInformationService;
+    
+    @Autowired
+    private UnitInformationServerImpl unitInformationServerImpl;
+    
     @Autowired
     private UnitRepository unitRepository;
 
@@ -55,8 +62,15 @@ public class UnitInformationController {
     	int limit = Integer.parseInt(request.getParameter("limit"));
     	String id = request.getParameter("id");
     	System.out.println(pages+"page"+limit+"limit"+id+"id");
-        Page<UnitInformation> unitInformationPage=unitInformationRepository.findAll(new PageRequest(pages-1,limit));
-        List<Map<String,String>> listMap=new ArrayList<>();//传到前端
+    	Page<UnitInformation> unitInformationPage = null;
+    	if(id==null) {
+    		unitInformationPage=unitInformationRepository.findAll(new PageRequest(pages-1,limit));
+    	}else {
+    		UnitInformation unitInformation = new UnitInformation();
+    		unitInformation.setUnitId(id);
+    		unitInformationPage = unitInformationService.findUnitInformationByUnitIdCriteria(pages-1, limit,unitInformation);
+    	}
+       List<Map<String,String>> listMap=new ArrayList<>();//传到前端
        for(int i=0;i<unitInformationPage.getContent().size();i++){
             Map<String,String> map1=new HashMap<>();
             map1.put("id",String.valueOf(unitInformationPage.getContent().get(i).getId()));
@@ -77,6 +91,7 @@ public class UnitInformationController {
         object.put("msg", "");
         object.put("count",unitInformationRepository.findAll().size());
         object.put("data", listMap);
+        System.out.println(object.toString());
         return  object.toString();
     }
     
