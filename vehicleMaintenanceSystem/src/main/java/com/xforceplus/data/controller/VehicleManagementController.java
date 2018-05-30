@@ -1,8 +1,10 @@
 package com.xforceplus.data.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xforceplus.data.bean.UnitInformation;
 import com.xforceplus.data.bean.VehicleManagement;
 import com.xforceplus.data.dao.VehicleManagementRepository;
+import com.xforceplus.data.service.VehicleManagementService;
 import com.xforceplus.data.tools.JSONResult;
 
 import jxl.Sheet;
@@ -39,13 +41,24 @@ public class VehicleManagementController {
     @Autowired
     private VehicleManagementRepository vehicleManagementRepository;
     
+    @Autowired
+    private VehicleManagementService vehicleManagementService;
+    
   //显示车辆列表
     @RequestMapping("/list/vehicles")
     @ResponseBody
     public String vehiclemanagement(Map<String,Object> map, HttpServletRequest request){
     	int pages = Integer.parseInt(request.getParameter("page"));
     	int limit = Integer.parseInt(request.getParameter("limit"));
-        Page<VehicleManagement> vehicleManagementPage=vehicleManagementRepository.findAll(new PageRequest(pages-1,limit));
+    	String licensePlateNumber = request.getParameter("licensePlateNumber");
+    	Page<VehicleManagement> vehicleManagementPage=null;
+    	if(licensePlateNumber==null) {
+    		vehicleManagementPage=vehicleManagementRepository.findAll(new PageRequest(pages-1,limit));
+    	}else {
+    		VehicleManagement vehicleManagement = new VehicleManagement();
+    		vehicleManagement.setLicensePlateNumber(licensePlateNumber);
+    		vehicleManagementPage = vehicleManagementService.findVehicleManagementormationByLicensePlateNumberCriteria(pages-1, limit,vehicleManagement);
+    	}
         List<Map<String,String>> listMap=new ArrayList<>();//传到前端
        for(int i=0;i<vehicleManagementPage.getContent().size();i++){
             Map<String,String> map1=new HashMap<>();
