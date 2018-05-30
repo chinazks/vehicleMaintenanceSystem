@@ -38,19 +38,13 @@
                     <li class="layui-nav-item">
                         <a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>基础信息配置</span></a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" kit-target data-options="{url:'userConfig',icon:'&#xe770;',title:'配置用户',id:'1'}"><i class="layui-icon">&#xe770;</i><span>配置用户</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'unitConfig',icon:'&#xe770;',title:'配置单位',id:'1'}"><i class="layui-icon">&#xe770;</i><span>配置单位</span></a></dd>
-                            <!--<dd><a href="javascript:;" data-url="form.html" data-icon="fa-user" data-title="表单" kit-target data-id='2'><i class="fa fa-user" aria-hidden="true"></i><span> 表单</span></a></dd>
-                            <dd><a href="javascript:;" data-url="nav.html" data-icon="&#xe628;" data-title="导航栏" kit-target data-id='3'><i class="layui-icon">&#xe628;</i><span> 导航栏</span></a></dd>
-                            <dd><a href="javascript:;" data-url="list4.html" data-icon="&#xe614;" data-title="列表四" kit-target data-id='4'><i class="layui-icon">&#xe614;</i><span> 列表四</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'https://www.baidu.com',icon:'&#xe658;',title:'百度一下',id:'5'}"><i class="layui-icon">&#xe658;</i><span> 百度一下</span></a></dd>-->
+                            <dd><a href="javascript:;" kit-target data-options="{url:'user',icon:'&#xe770;',title:'配置用户',id:'1'}"><i class="layui-icon">&#xe770;</i><span>配置用户</span></a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 单位模块</span></a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;" kit-target data-options="{url:'test.html',icon:'&#xe770;',title:'用户信息',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 用户信息</span></a></dd>
-                            <dd><a href="javascript:;" kit-target data-options="{url:'main',icon:'&#xe770;',title:'单位信息',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 单位信息</span></a></dd>
+                            <dd><a href="javascript:;" kit-target data-options="{url:'units',icon:'&#xe770;',title:'单位信息',id:'1'}"><i class="layui-icon">&#xe770;</i><span> 单位信息</span></a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item layui-nav-itemed">
@@ -62,12 +56,6 @@
                             <dd><a href="javascript:;" kit-target data-options="{url:'/releaseRecord_list',icon:'&#xe770;',title:'发放记录',id:'1'}"><i class="layui-icon">&#xe770;</i><span>发放记录</span></a></dd>
                         </dl>
                     </li>
-                   <!-- <li class="layui-nav-item">
-                        <a href="javascript:;" data-url="/components/table/table.html" data-name="table" kit-loader><i class="fa fa-plug" aria-hidden="true"></i><span> 表格(page)</span></a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="javascript:;" data-url="/views/form.html" data-name="form" kit-loader><i class="fa fa-plug" aria-hidden="true"></i><span> 表单(page)</span></a>
-                    </li>-->
                 </ul>
             </div>
         </div>
